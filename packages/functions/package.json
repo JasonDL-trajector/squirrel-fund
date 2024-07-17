@@ -1,0 +1,19 @@
+{
+  "name": "@squirrel-fund/functions",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "sst bind vitest",
+    "typecheck": "tsc -noEmit"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.141",
+    "@types/node": "^20.14.10",
+    "prisma": "^5.16.2",
+    "sst": "^2.43.4",
+    "vitest": "^2.0.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.2"
+  }
+}
