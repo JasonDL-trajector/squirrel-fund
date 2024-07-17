@@ -8,7 +8,7 @@ export const main = handler(async (event) => {
     TableName: Table.SquirrelFundTable.tableName,
     KeyConditionExpression: "userId = :userId",
     ExpressionAttributeValues: {
-        ":userId": "1",
+      ":userId": event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
     },
   };
     const result = await dynamoDb.query(params);

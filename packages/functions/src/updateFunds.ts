@@ -8,11 +8,12 @@ export const main = handler(async (event) => {
   const params = {
     TableName: Table.SquirrelFundTable.tableName,
     Key: {
-        userId: "1",
+        userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
         fundId: event.pathParameters?.id,
     },
-    UpdateExpression: "set fundAmount = :fundAmount",
+    UpdateExpression: "SET name = :name, fundAmount = :fundAmount ",
     ExpressionAttributeValues: {
+        ":name": data.name || null,
         ":fundAmount": data.fundAmount || null,
     },
     ReturnValues: "ALL_NEW",

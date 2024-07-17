@@ -6,6 +6,7 @@ import dynamoDb from "@squirrel-fund/core/dynamodb"
 export const main = handler (async(event) => {
 
   let data = {
+    name: "",
     fundAmount: "",
   };
 
@@ -16,8 +17,8 @@ export const main = handler (async(event) => {
   const params = {
     TableName: Table.SquirrelFundTable.tableName,
     Item: {
-        userId: "1",
-        name: "Jason",
+        userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
+        name: data.name,
         fundId: uuid.v1(),
         fundAmount: data.fundAmount,
         createdAt: Date.now(),

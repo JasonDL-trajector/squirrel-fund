@@ -7,7 +7,7 @@ export const main = handler(async (event) => {
   const params = {
     TableName: Table.SquirrelFundTable.tableName,
     Key: {
-        userId: "1",
+        userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
         fundId: event.pathParameters?.id,
     },
   };
