@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "sst dev",
+    "test": "sst bind vitest run",
     "build": "sst build",
     "deploy": "sst deploy",
     "remove": "sst remove",
@@ -16,7 +17,8 @@
     "aws-cdk-lib": "2.142.1",
     "constructs": "10.3.0",
     "sst": "^2.43.4",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.3"
   },
   "workspaces": [
     "packages/*"
