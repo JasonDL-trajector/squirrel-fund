@@ -1,43 +1,23 @@
-import { DynamoDB } from "aws-sdk";
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { Table } from "sst/node/table";
+import handler from "@squirrel-fund/core/handler";
+import dynamoDb from "@squirrel-fund/core/dynamodb";
 
-const dynamoDb = new DynamoDB.DocumentClient();
+export const main = handler(async (event) => {
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const { userId, fundId } = event.queryStringParameters || {};
+	const params = {
+		TableName: Table.SquirrelFundTable.tableName,
+		Key: {
+				userId: "1",
+				fundId: event.pathParameters?.id,
+		},
+	};
 
-    if (event.httpMethod === 'GET' && fundId) {
-        if (!userId || !fundId) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Missing required parameters' }),
-            };
-        }
+	const result = await dynamoDb.get(params);
 
-        const params: DynamoDB.DocumentClient.GetItemInput = {
-            TableName: process.env.TABLE_NAME || '', // Ensure TableName is not undefined
-            Key: {
-                userId: userId,
-                fundId: fundId,
-            },
-        };
+	if(!result.Item) {
+		throw new Error('Fund not found');
+	}
 
-        try {
-            const result = await dynamoDb.get(params).promise();
-            return {
-                statusCode: 200,
-                body: JSON.stringify(result.Item),
-            };
-        } catch (error) {
-            return {
-                statusCode: 500,
-                body: JSON.stringify({ error: 'Failed to fetch fund' }),
-            };
-        }
-    }
-
-    return {
-        statusCode: 405,
-        body: JSON.stringify({ message: 'Method not allowed' }),
-    };
-};
+	return JSON.stringify( result.Item );
+});
+   

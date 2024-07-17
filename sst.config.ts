@@ -14,8 +14,8 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(APIStack);
     app.stack(StorageStack);
+    app.stack(APIStack);    
     app.stack(FrontendStack);
   }
 } satisfies SSTConfig;

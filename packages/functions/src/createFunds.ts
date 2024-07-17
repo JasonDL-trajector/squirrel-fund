@@ -1,34 +1,30 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
-import { Table } from "sst/constructs";
-import AWS from "aws-sdk";
+import * as uuid from "uuid";
+import { Table } from "sst/node/table";
+import handler from "@squirrel-fund/core/handler"
+import dynamoDb from "@squirrel-fund/core/dynamodb"
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+export const main = handler (async(event) => {
 
-export const handler: APIGatewayProxyHandler = async (event) => {
-  const { userId, fundId, amount, description } = JSON.parse(event.body || "{}");
-
-  const params = {
-    TableName: 'ejd-squirrel-fund-table',
-    Item: {
-      userId,
-      fundId,
-      amount,
-      description,
-      createdAt: new Date().toISOString(),
-    },
+  let data = {
+    fundAmount: "",
   };
 
-  try {
-    await dynamoDb.put(params).promise();
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: "Fund added successfully" }),
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Could not add fund" }),
-    };
-  }
-};
+  if (event.body != null) {
+    data = JSON.parse(event.body);
+  };
+
+  const params = {
+    TableName: Table.SquirrelFundTable.tableName,
+    Item: {
+        userId: "1",
+        name: "Jason",
+        fundId: uuid.v1(),
+        fundAmount: data.fundAmount,
+        createdAt: Date.now(),
+    },
+  };
+  await dynamoDb.put(params);
+
+  return JSON.stringify(params.Item);
+});
+  
