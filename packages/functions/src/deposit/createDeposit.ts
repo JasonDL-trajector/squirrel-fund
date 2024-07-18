@@ -7,7 +7,9 @@ export const main = handler (async(event) => {
 
   let data = {
     name: "",
-    fundAmount: "",
+    depositAmount: 0,
+    depositNote: "",
+    depositDate: new Date().toISOString(),
   };
 
   if (event.body != null) {
@@ -15,17 +17,17 @@ export const main = handler (async(event) => {
   };
 
   const params = {
-    TableName: Table.SquirrelFundTable.tableName,
+    TableName: Table.DepositTable.tableName,
     Item: {
-        userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-        name: data.name,
-        fundId: uuid.v1(),
-        fundAmount: data.fundAmount,
-        createdAt: Date.now(),
+      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
+      name: data.name,
+      depositId: uuid.v1(),
+      depositAmount: data.depositAmount,
+      depositNote: data.depositNote,
+      depositDate: data.depositDate,
     },
   };
   await dynamoDb.put(params);
 
   return JSON.stringify(params.Item);
 });
-  

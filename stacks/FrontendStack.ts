@@ -1,22 +1,27 @@
 import { StackContext, NextjsSite, use } from "sst/constructs";
 import { APIStack } from "./APIStack";
+import { AuthStack } from "./AuthStack";
 import { StorageStack } from "./StorageStack";
 
 export function FrontendStack({ stack, app }: StackContext) {
   const { api } = use(APIStack);
-  const { table } = use(StorageStack);
+  const { auth } = use(AuthStack);
+  const { bucket } = use(StorageStack);
 
-  const site = new NextjsSite(stack, "FrontendSite", {
+  const site = new NextjsSite(stack, "NextJSSite", {
     path: "packages/frontend",
     buildCommand: "pnpm run build",
     environment: {
       API_URL: api.url,
       REGION: app.region,
-      TABLE_NAME: table.tableName
+      BUCKET: bucket.bucketName,
+      USER_POOL_ID: auth.userPoolId,
+      USER_POOL_CLIENT_ID: auth.userPoolClientId,
+      IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",      
     } 
   })
 
   stack.addOutputs({
-    FrontendUrl: site.url
+    SiteUrl: site.url
   });
 };

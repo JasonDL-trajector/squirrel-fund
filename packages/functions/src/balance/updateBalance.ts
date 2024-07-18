@@ -6,15 +6,15 @@ export const main = handler(async (event) => {
   const data = JSON.parse(event.body || "{}");
 
   const params = {
-    TableName: Table.SquirrelFundTable.tableName,
+    TableName: Table.BalanceTable.tableName,
     Key: {
-        userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-        fundId: event.pathParameters?.id,
+      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
+      balanceId: event.pathParameters?.id,
     },
-    UpdateExpression: "SET name = :name, fundAmount = :fundAmount ",
+    UpdateExpression: "SET balanceAmount = :balanceAmount, balanceDate = :balanceDate",
     ExpressionAttributeValues: {
-        ":name": data.name || null,
-        ":fundAmount": data.fundAmount || null,
+      ":balanceAmount": data.balanceAmount || null,
+      ":balanceDate": data.balanceDate || null,
     },
     ReturnValues: "ALL_NEW",
   };

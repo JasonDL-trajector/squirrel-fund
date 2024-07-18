@@ -5,17 +5,17 @@ import dynamoDb from "@squirrel-fund/core/dynamodb";
 export const main = handler(async (event) => {
 
 	const params = {
-		TableName: Table.SquirrelFundTable.tableName,
+		TableName: Table.DepositTable.tableName,
 		Key: {
 				userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-				fundId: event.pathParameters?.id,
+				depositId: event.pathParameters?.id,
 		},
 	};
 
 	const result = await dynamoDb.get(params);
 
 	if(!result.Item) {
-		throw new Error('Fund not found');
+		throw new Error('Deposit not found');
 	}
 
 	return JSON.stringify( result.Item );

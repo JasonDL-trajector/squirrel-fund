@@ -5,7 +5,7 @@ import dynamoDb from "@squirrel-fund/core/dynamodb";
 export const main = handler(async (event) => {
 
   const params = {
-    TableName: Table.SquirrelFundTable.tableName,
+    TableName: Table.WithdrawTable.tableName,
     KeyConditionExpression: "userId = :userId",
     ExpressionAttributeValues: {
       ":userId": event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
