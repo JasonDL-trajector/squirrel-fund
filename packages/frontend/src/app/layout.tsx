@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import AmplifyProvider from "@/components/AmplifyProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+         <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.global = window;
+              var exports = {};
+            `,
+          }}
+        />
+      </head>
+      <body className={inter.className}>
+
+        <div className="flex flex-col h-screen bg-background">  
+          <AmplifyProvider>
+            {children}
+          </AmplifyProvider>
+        </div>
+      
+      </body>
     </html>
   );
 }

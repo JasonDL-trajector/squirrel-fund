@@ -9,7 +9,7 @@ export const main = handler (async(event) => {
     name: "",
     depositAmount: 0,
     depositNote: "",
-    depositDate: new Date().toISOString(),
+    depositDate: "",
   };
 
   if (event.body != null) {

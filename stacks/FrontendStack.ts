@@ -17,7 +17,7 @@ export function FrontendStack({ stack, app }: StackContext) {
       BUCKET: bucket.bucketName,
       USER_POOL_ID: auth.userPoolId,
       USER_POOL_CLIENT_ID: auth.userPoolClientId,
-      IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",      
+      IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
     } 
   })
 

@@ -20,4 +20,3 @@ export const main = handler(async (event) => {
 
 	return JSON.stringify( result.Item );
 });
-   
