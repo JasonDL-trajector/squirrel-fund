@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import AmplifyProvider from "@/components/AmplifyProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["greek"], weight: "400"});
 
 export const metadata: Metadata = {
   title: "Squirrel Fund",
@@ -27,7 +27,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={roboto.className}>
 
         <div className="flex flex-col h-screen bg-background">  
           <AmplifyProvider>

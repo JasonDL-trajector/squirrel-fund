@@ -34,6 +34,7 @@ function Login() {
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    console.log("Logging in...")
     event.preventDefault();
 
     try {

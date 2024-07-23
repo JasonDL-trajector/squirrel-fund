@@ -131,9 +131,6 @@ export default function Main() {
     return dates.map(date => date.toLocaleDateString('en-US', options)); // Return dates in "Month Day" format
 };
 
-
-
-
   return (
     <>
       <Navbar />
@@ -193,86 +190,52 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
                     </tr>
                   </thead>
                   <tbody>
-                    {getLastSevenDays().map((date, index) => {
-                      const jasonDeposit = deposits.find(deposit => 
-                        new Date(deposit.depositDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) === date && deposit.name === 'Jason'
-                      );
-                      const elyDeposit = deposits.find(deposit => 
-                        new Date(deposit.depositDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) === date && deposit.name === 'Ely'
-                      );
+                  {getLastSevenDays().map((date, index) => {
+                    const jasonDeposit = deposits.find(deposit => 
+                      new Date(deposit.depositDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) === date && deposit.name === 'Jason'
+                    );
+                    const elyDeposit = deposits.find(deposit => 
+                      new Date(deposit.depositDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) === date && deposit.name === 'Ely'
+                    );
 
-                      return (
-                        <tr key={index} className="border-b last:border-b-0">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center justify-center">
-                              <input 
-                                type="checkbox" 
-                                checked={!!jasonDeposit} 
-                                className="w-4 h-4 text-[#334155] " 
-                              />
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center justify-center">
-                              <p className="text-sm font-medium">{date}</p>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center justify-center">
-                              <input 
-                                type="checkbox" 
-                                checked={!!elyDeposit} 
-                                className="w-4 h-4 text-[#334155] bg-gray-100 border-gray-300 rounded focus:ring-[#334155] dark:focus:ring-[#334155] dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    return (
+                      <tr key={index} className="border-b last:border-b-0">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center justify-center">
+                            {jasonDeposit ? <FiCheck /> : null}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center justify-center">
+                            <p className="text-sm font-medium">{date}</p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center justify-center">
+                            {elyDeposit ? <FiCheck /> : null}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                   </tbody>
                 </table>
               </div>
             </CardContent>
           </Card>
         </div>
-        <div className="bg-card rounded-lg shadow-md p-6 space-y-6 mt-6">
-          {/* <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold">Fund Goal</h2>
-              <p className="text-muted-foreground text-sm">Set a target to save towards</p>
-            </div>
-            <Button variant="outline" size="sm">
-              Edit
-            </Button>
-          </div> */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-4xl font-bold">P{balance !== null ? balance : 'Loading...'}</p>
-              <p className="text-muted-foreground text-sm">Current Fund balance</p>
-            </div>
-            {/* <div className="bg-muted rounded-full w-20 h-20 flex items-center justify-center">
-              <p className="text-2xl font-bold">75%</p>
-            </div> */}
-          </div>
-          {/* <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold">Automatic Deposits</h2>
-              <p className="text-muted-foreground text-sm">Customize your Deposit settings</p>
-            </div>
-            <Button variant="outline" size="sm">
-              Edit
-            </Button>
-          </div> */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-4xl font-bold">P{dailyDeposit !== null ? dailyDeposit : 'Loading...'}</p>
-              <p className="text-muted-foreground text-sm">Deposit amount per day</p>
-            </div>
-            <div className="bg-muted rounded-full flex items-center justify-center px-2 py-2">
-              <p className="text-2xl font-bold px-5">Daily</p>
-            </div>
-          </div>
-        </div>
+       <div className="bg-card rounded-lg shadow-md p-6 space-y-6 mt-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="flex flex-col items-center justify-center p-4 border rounded-lg shadow">
+      <p className="text-4xl font-bold">P{balance !== null ? balance : 'Loading...'}</p>
+      <p className="text-muted-foreground text-sm">Current Fund Balance</p>
+    </div>
+    <div className="flex flex-col items-center justify-center p-4 border rounded-lg shadow">
+      <p className="text-4xl font-bold">P{dailyDeposit !== null ? dailyDeposit : 'Loading...'}</p>
+      <p className="text-muted-foreground text-sm">Deposit Amount Per Day</p>
+    </div>
+  </div>
+</div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
