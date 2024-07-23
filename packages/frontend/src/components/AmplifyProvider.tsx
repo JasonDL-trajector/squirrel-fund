@@ -10,7 +10,6 @@ interface AmplifyProviderProps {
 
 const AmplifyProvider = ({ children }: AmplifyProviderProps) => {
   useEffect(() => {
-    console.log("Configuring Amplify");
     Amplify.configure({
       Auth: {
         mandatorySignIn: true,

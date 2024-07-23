@@ -21,6 +21,7 @@ export function APIStack({ stack }: StackContext) {
       "PUT /deposit/{id}": "packages/functions/src/deposit/updateDeposit.main",
       "DELETE /deposit/{id}": "packages/functions/src/deposit/deleteDeposit.main",
 
+      "GET /balance": "packages/functions/src/balance/listBalances.main",
       "GET /balance/{id}": "packages/functions/src/balance/getBalance.main",
       "POST /balance": "packages/functions/src/balance/createBalance.main",
       "PUT /balance/{id}": "packages/functions/src/balance/updateBalance.main",

@@ -6,12 +6,8 @@ export const main = handler(async (event) => {
 
   const params = {
     TableName: Table.WithdrawTable.tableName,
-    KeyConditionExpression: "userId = :userId",
-    ExpressionAttributeValues: {
-      ":userId": event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-    },
   };
-    const result = await dynamoDb.query(params);
+    const result = await dynamoDb.scan(params);
 
     return JSON.stringify( result.Items );
 });
