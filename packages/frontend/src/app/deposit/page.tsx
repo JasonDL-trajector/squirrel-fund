@@ -161,11 +161,11 @@ export default function DepositPage() {
               <div className="flex justify-between items-center">
                 <div className="space-y-2">
                   <Label>Current Balance</Label>
-                  <div className="text-2xl font-bold">P{balance !== null ? balance : 'Loading...'}</div>
+                  <div className="text-2xl font-bold">₱{balance !== null ? balance : 'Loading...'}</div>
                 </div>
                 <div className="space-y-2">
                   <Label>New Balance</Label>
-                  <div className="text-2xl font-bold">P{balance !== null ? balance + depositAmount : 'Loading...'}</div>
+                  <div className="text-2xl font-bold">₱{balance !== null ? balance + depositAmount : 'Loading...'}</div>
                 </div>
               </div>
             </CardContent>

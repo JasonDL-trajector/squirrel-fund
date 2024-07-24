@@ -72,7 +72,7 @@ export default function Main() {
       </div>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-4xl font-bold">P{getBalance()}</p>
+          <p className="text-4xl font-bold">₱{getBalance()}</p>
           <p className="text-muted-foreground text-sm">Current Fund balance</p>
         </div>
         <div className="bg-muted rounded-full w-20 h-20 flex items-center justify-center">
@@ -90,7 +90,7 @@ export default function Main() {
       </div>
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-4xl font-bold">P50</p>
+          <p className="text-4xl font-bold">₱50</p>
           <p className="text-muted-foreground text-sm">Deposit amount per day</p>
         </div>
         <div className="bg-muted rounded-full flex items-center justify-center px-2 py-2">
@@ -110,7 +110,7 @@ export default function Main() {
               <p className="text-sm font-medium">Deposit to Fund</p>
               <p className="text-xs text-muted-foreground">July 15, 2023</p>
             </div>
-            <p className="text-sm font-medium text-right">P50</p>
+            <p className="text-sm font-medium text-right">₱50</p>
           </div>
           <div className="grid grid-cols-[25px_1fr_50px] items-center gap-4 border-b pb-4 last:border-b-0 last:pb-0">
             <ArrowDownIcon className="w-5 h-5 text-green-500 rotate-180" />
@@ -118,7 +118,7 @@ export default function Main() {
               <p className="text-sm font-medium">Deposit to Fund</p>
               <p className="text-xs text-muted-foreground">July 8, 2023</p>
             </div>
-            <p className="text-sm font-medium text-right">P50</p>
+            <p className="text-sm font-medium text-right">₱50</p>
           </div>
           <div className="grid grid-cols-[25px_1fr_50px] items-center gap-4 border-b pb-4 last:border-b-0 last:pb-0">
             <ArrowDownIcon className="w-5 h-5 text-green-500 rotate-180" />
@@ -126,7 +126,7 @@ export default function Main() {
               <p className="text-sm font-medium">Deposit to Fund</p>
               <p className="text-xs text-muted-foreground">July 1, 2023</p>
             </div>
-            <p className="text-sm font-medium text-right">P50</p>
+            <p className="text-sm font-medium text-right">₱50</p>
           </div>
         </CardContent>
       </Card>
@@ -141,7 +141,7 @@ export default function Main() {
               <p className="text-sm font-medium">Withdraw from Fund</p>
               <p className="text-xs text-muted-foreground">July 2, 2023</p>
             </div>
-            <p className="text-sm font-medium text-right">P50</p>
+            <p className="text-sm font-medium text-right">₱50</p>
           </div>
           <div className="grid grid-cols-[25px_1fr_50px] items-center gap-4 border-b pb-4 last:border-b-0 last:pb-0">
             <ArrowDownIcon className="w-5 h-5 text-green-500" />
@@ -149,7 +149,7 @@ export default function Main() {
               <p className="text-sm font-medium">Withdraw from Fund</p>
               <p className="text-xs text-muted-foreground">July 9, 2023</p>
             </div>
-            <p className="text-sm font-medium text-right">P50</p>
+            <p className="text-sm font-medium text-right">₱50</p>
           </div>
         </CardContent>
       </Card>
