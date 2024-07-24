@@ -210,7 +210,7 @@ export default function Main() {
           </Card>
           <Card className="h-full">
             <CardHeader>
-              <CardTitle>Tabular Statistics</CardTitle>
+              <CardTitle>Tabular Summary</CardTitle>
             </CardHeader>
             <CardContent>
               {/* The table should contain 3 columns. 
@@ -227,14 +227,15 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
                     <tr>
                       <th scope="col" className="px-6 py-3">
                         <div className="flex items-center justify-center">
-                          <p className="text-sm font-medium">Jason</p>
+                          <p className="text-sm font-medium">Date</p>
                         </div>
                       </th>
                       <th scope="col" className="px-6 py-3">
                         <div className="flex items-center justify-center">
-                          <p className="text-sm font-medium">Date</p>
+                          <p className="text-sm font-medium">Jason</p>
                         </div>
                       </th>
+
                       <th scope="col" className="px-6 py-3">
                         <div className="flex items-center justify-center">
                           <p className="text-sm font-medium">Ely</p>
@@ -263,16 +264,17 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
                         <tr key={index} className="border-b last:border-b-0">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center justify-center">
+                              <p className="text-sm font-medium">{date}</p>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center justify-center">
                               {jasonDeposit ? (
                                 <CheckIcon color="green" />
                               ) : null}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center justify-center">
-                              <p className="text-sm font-medium">{date}</p>
-                            </div>
-                          </td>
+
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center justify-center">
                               {elyDeposit ? <CheckIcon color="green" /> : null}
@@ -368,7 +370,7 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
           </Card>
         </div>
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

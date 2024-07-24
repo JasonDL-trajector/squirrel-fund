@@ -1,16 +1,22 @@
-"use client"
+"use client";
 
 import { Button } from "./ui/button";
 import { SquirrelIcon } from "./ui/SquirrelIcon";
 import { UserIcon } from "./ui/UserIcon";
 import { MenuIcon } from "./ui/MenuIcon";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuSeparator } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "./ui/dropdown-menu";
 import { SettingsIcon } from "./ui/SettingsIcon";
 import Link from "next/link";
 import { LogOutIcon } from "lucide-react";
 import { Auth } from "aws-amplify";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -26,10 +32,10 @@ const Navbar = () => {
     try {
       await Auth.signOut();
       setIsAuthenticated(false);
-      router.push('/login'); // Redirect to the login page
+      router.push("/login"); // Redirect to the login page
     } catch (error) {
-      console.error('Error signing out: ', error);
-      router.push('/login'); // Redirect to login in case of error
+      console.error("Error signing out: ", error);
+      router.push("/login"); // Redirect to login in case of error
     }
   }
 
@@ -49,13 +55,17 @@ const Navbar = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <Link href="#" className="flex items-center gap-2">
+              <Button variant="ghost" className="flex items-center gap-2">
                 <SettingsIcon className="w-4 h-4" />
-              </Link>
+              </Button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Button className="flex items-center gap-2" variant="ghost" onClick={handleLogout}>
+              <Button
+                className="flex items-center gap-2"
+                variant="ghost"
+                onClick={handleLogout}
+              >
                 <LogOutIcon className="w-4 h-4" />
                 <span>Sign Out</span>
               </Button>
