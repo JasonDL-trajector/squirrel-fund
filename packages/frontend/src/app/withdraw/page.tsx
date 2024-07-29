@@ -1,6 +1,6 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+'use client';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import {
   Card,
   CardHeader,
@@ -8,40 +8,37 @@ import {
   CardContent,
   CardFooter,
   CardDescription,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Auth, API } from "aws-amplify";
-import { WithdrawType } from "@/types/withdraw";
-import { BalanceType } from "@/types/balance";
+} from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Navbar from '@/components/Navbar';
+import { Auth, API } from 'aws-amplify';
+import { WithdrawType } from '@/types/withdraw';
+import { BalanceType } from '@/types/balance';
 
 export default function WithdrawPage() {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(0);
-  const [withdrawNote, setWithdrawNote] = useState("");
-  const [withdrawDate, setWithdrawDate] = useState("");
+  const [withdrawNote, setWithdrawNote] = useState('');
+  const [withdrawDate, setWithdrawDate] = useState('');
   const [balance, setBalance] = useState<number | null>(null);
-  const [balanceAmount, setBalanceAmount] = useState(0);
-  const [balanceDate, setBalanceDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
-        setName(user.attributes.name || "");
-        console.log("User name:", user.attributes.name);
+        setName(user.attributes.name || '');
+        console.log('User name:', user.attributes.name);
 
         const fetchBalance = async () => {
           try {
-            const response = await API.get("deposit", `/balance`, {});
+            const response = await API.get('deposit', `/balance`, {});
             const sortedBalances = response.sort(
               (
                 a: { balanceDate: string | number | Date },
@@ -54,18 +51,18 @@ export default function WithdrawPage() {
             if (sortedBalances.length > 0 && sortedBalances[0].balanceAmount) {
               setBalance(sortedBalances[0].balanceAmount);
             } else {
-              console.error("No balance returned from API");
+              console.error('No balance returned from API');
               setBalance(0);
             }
           } catch (error) {
-            console.error("Error fetching balance:", error);
+            console.error('Error fetching balance:', error);
             setBalance(0);
           }
         };
 
         fetchBalance();
       } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error('Error fetching user:', error);
       }
     };
 
@@ -74,26 +71,26 @@ export default function WithdrawPage() {
 
   const createWithdrawal = async (withdraw: WithdrawType) => {
     try {
-      const response = await API.post("deposit", `/withdraw`, {
+      const response = await API.post('deposit', `/withdraw`, {
         body: withdraw,
       });
-      console.log("Withdrawal created successfully:", response);
+      console.log('Withdrawal created successfully:', response);
       return response;
     } catch (error) {
-      console.error("Error creating withdrawal:", error);
+      console.error('Error creating withdrawal:', error);
       throw error;
     }
   };
 
   const createBalance = async (balance: BalanceType) => {
     try {
-      const response = await API.post("deposit", `/balance`, {
+      const response = await API.post('deposit', `/balance`, {
         body: balance,
       });
-      console.log("Balance created successfully:", response);
+      console.log('Balance created successfully:', response);
       return response;
     } catch (error) {
-      console.error("Error creating balance:", error);
+      console.error('Error creating balance:', error);
       throw error;
     }
   };
@@ -101,7 +98,7 @@ export default function WithdrawPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    setError("");
+    setError('');
 
     const newBalanceAmount =
       balance !== null ? balance - withdrawAmount : withdrawAmount;
@@ -117,10 +114,10 @@ export default function WithdrawPage() {
         balanceAmount: newBalanceAmount,
         balanceDate: withdrawDate,
       });
-      router.push("/home");
+      router.push('/home');
     } catch (err) {
-      console.error("Error creating withdrawal:", err);
-      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error('Error creating withdrawal:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -151,7 +148,7 @@ export default function WithdrawPage() {
           </Link>
         </div>
         <form onSubmit={handleSubmit}>
-          <Card className="max-w-md mx-auto">
+          <Card className="max-w-md mx-auto mt-10">
             <CardHeader>
               <CardTitle>New Withdrawal</CardTitle>
               <CardDescription>
@@ -195,30 +192,29 @@ export default function WithdrawPage() {
                 <div className="space-y-2">
                   <Label>Current Balance</Label>
                   <div className="text-2xl font-bold">
-                    ₱{balance !== null ? balance : "Loading..."}
+                    ₱{balance !== null ? balance : 'Loading...'}
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label>New Balance</Label>
                   <div className="text-2xl font-bold">
                     ₱
-                    {balance !== null ? balance - withdrawAmount : "Loading..."}
+                    {balance !== null ? balance - withdrawAmount : 'Loading...'}
                   </div>
                 </div>
               </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => router.push("/home")}>
+              <Button variant="outline" onClick={() => router.push('/home')}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Submitting..." : "Submit Withdrawal"}
+                {isLoading ? 'Submitting...' : 'Submit Withdrawal'}
               </Button>
             </CardFooter>
           </Card>
         </form>
       </main>
-      <Footer />
     </div>
   );
 }

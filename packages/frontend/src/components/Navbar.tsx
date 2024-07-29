@@ -1,25 +1,26 @@
-"use client";
+'use client';
 
-import { Button } from "./ui/button";
-import { SquirrelIcon } from "./ui/SquirrelIcon";
-import { UserIcon } from "./ui/UserIcon";
-import { MenuIcon } from "./ui/MenuIcon";
+import { Button } from './ui/button';
+import { SquirrelIcon } from './ui/SquirrelIcon';
+import { UserIcon } from './ui/UserIcon';
+import { MenuIcon } from './ui/MenuIcon';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "./ui/dropdown-menu";
-import { SettingsIcon } from "./ui/SettingsIcon";
-import Link from "next/link";
-import { LogOutIcon } from "lucide-react";
-import { Auth } from "aws-amplify";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+} from './ui/dropdown-menu';
+import { SettingsIcon } from './ui/SettingsIcon';
+import { LogOutIcon } from 'lucide-react';
+import { Auth } from 'aws-amplify';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { s3Download } from '@/lib/awsLib';
 
 const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [profilePictureUrl, setProfilePictureUrl] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -28,14 +29,29 @@ const Navbar = () => {
       .catch(() => setIsAuthenticated(false));
   }, []);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        const picture = user.attributes['custom:profilePictureKey'];
+        const pictureUrl = await s3Download(picture);
+        setProfilePictureUrl(pictureUrl);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  });
+
   async function handleLogout() {
     try {
       await Auth.signOut();
       setIsAuthenticated(false);
-      router.push("/login"); // Redirect to the login page
+      router.push('/login'); // Redirect to the login page
     } catch (error) {
-      console.error("Error signing out: ", error);
-      router.push("/login"); // Redirect to login in case of error
+      console.error('Error signing out: ', error);
+      router.push('/login'); // Redirect to login in case of error
     }
   }
 
@@ -48,14 +64,31 @@ const Navbar = () => {
       {isAuthenticated && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <UserIcon className="w-6 h-6" />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
+            {profilePictureUrl ? (
+              <img
+                src={profilePictureUrl}
+                alt="Profile"
+                className="w-8 h-8"
+                style={{ borderRadius: '50%' }}
+              />
+            ) : (
+              <img
+                src={
+                  'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
+                }
+                alt="Profile"
+                className="w-8 h-8"
+                style={{ borderRadius: '50%' }}
+              />
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <Button variant="ghost" className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                onClick={() => router.push('/settings')}
+              >
                 <SettingsIcon className="w-4 h-4" />
               </Button>
             </DropdownMenuItem>

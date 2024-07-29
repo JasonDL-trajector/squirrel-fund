@@ -1,23 +1,22 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import LinechartChart from "@/components/ui/Linechart";
-import { ArrowDownIcon } from "@/components/ui/ArrowDownIcon";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { Auth, API } from "aws-amplify";
-import { useRouter } from "next/navigation";
-import { DepositType } from "./../../types/deposit";
-import { WithdrawType } from "./../../types/withdraw";
-import { CheckIcon } from "@radix-ui/react-icons";
+import React, { useState, useEffect } from 'react';
+import LinechartChart from '@/components/ui/Linechart';
+import { ArrowDownIcon } from '@/components/ui/ArrowDownIcon';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import Navbar from '@/components/Navbar';
+import { Auth, API } from 'aws-amplify';
+import { useRouter } from 'next/navigation';
+import { DepositType } from './../../types/deposit';
+import { WithdrawType } from './../../types/withdraw';
+import { CheckIcon } from '@radix-ui/react-icons';
 
 export default function Main() {
   const apiEndpoint = process.env.API_URL;
   const router = useRouter();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [dailyDeposit, setDailyDeposit] = useState<number | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
@@ -29,10 +28,10 @@ export default function Main() {
     const checkAuth = async () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
-        setName(user.attributes.name || "");
+        setName(user.attributes.name || '');
         setDailyDeposit(
-          user.attributes["custom:dailyDeposit"]
-            ? parseFloat(user.attributes["custom:dailyDeposit"])
+          user.attributes['custom:dailyDeposit']
+            ? parseFloat(user.attributes['custom:dailyDeposit'])
             : 0
         );
         setIsAuthenticated(true);
@@ -46,14 +45,14 @@ export default function Main() {
 
   useEffect(() => {
     if (isAuthenticated === false) {
-      console.log("Not an authenticated user, redirecting to login");
-      router.push("/login");
+      console.log('Not an authenticated user, redirecting to login');
+      router.push('/login');
     } else if (isAuthenticated === true) {
-      console.log("Authenticated User");
+      console.log('Authenticated User');
 
       const fetchBalance = async () => {
         try {
-          const response = await API.get("deposit", `/balance`, {});
+          const response = await API.get('deposit', `/balance`, {});
           const sortedBalances = response.sort(
             (
               a: { balanceDate: string | number | Date },
@@ -66,18 +65,18 @@ export default function Main() {
           if (sortedBalances.length > 0 && sortedBalances[0].balanceAmount) {
             setBalance(sortedBalances[0].balanceAmount);
           } else {
-            console.error("No balance returned from API");
+            console.error('No balance returned from API');
             setBalance(0);
           }
         } catch (error) {
-          console.error("Error fetching balance:", error);
+          console.error('Error fetching balance:', error);
           setBalance(0);
         }
       };
 
       const fetchDeposits = async () => {
         try {
-          const response = await API.get("deposit", `/deposit`, {});
+          const response = await API.get('deposit', `/deposit`, {});
           const sortedDeposits = response.sort(
             (
               a: { depositDate: string | number | Date },
@@ -88,13 +87,13 @@ export default function Main() {
           );
           setDeposits(sortedDeposits);
         } catch (error) {
-          console.error("Error fetching deposits:", error);
+          console.error('Error fetching deposits:', error);
         }
       };
 
       const fetchWithdrawals = async () => {
         try {
-          const response = await API.get("deposit", `/withdraw`, {});
+          const response = await API.get('deposit', `/withdraw`, {});
           const sortedWithdrawals = response.sort(
             (
               a: { withdrawDate: string | number | Date },
@@ -105,13 +104,13 @@ export default function Main() {
           );
           setWithdrawals(sortedWithdrawals);
         } catch (error) {
-          console.error("Error fetching withdrawals:", error);
+          console.error('Error fetching withdrawals:', error);
         }
       };
 
       const fetchBalanceHistory = async () => {
         try {
-          const response = await API.get("deposit", `/balance`, {});
+          const response = await API.get('deposit', `/balance`, {});
           const sortedBalanceHistory = response.sort(
             (
               a: { balanceDate: string | number | Date },
@@ -123,7 +122,7 @@ export default function Main() {
           console.log(sortedBalanceHistory);
           setBalanceHistory(sortedBalanceHistory);
         } catch (error) {
-          console.error("Error fetching balance history:", error);
+          console.error('Error fetching balance history:', error);
         }
       };
 
@@ -140,22 +139,22 @@ export default function Main() {
 
   const formatDateTime = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
       hour12: true,
     };
-    return new Date(dateString).toLocaleString("en-US", options);
+    return new Date(dateString).toLocaleString('en-US', options);
   };
 
-  const getLastFiveDays = () => {
+  const getWeek = () => {
     const today = new Date();
     const sevenDaysAgo = new Date(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate() - 5
+      today.getDate() - 7
     );
 
     const dates = [];
@@ -168,10 +167,10 @@ export default function Main() {
     }
 
     const options: Intl.DateTimeFormatOptions = {
-      month: "long",
-      day: "numeric",
+      month: 'long',
+      day: 'numeric',
     }; // Options for desired format
-    return dates.map((date) => date.toLocaleDateString("en-US", options)); // Return dates in "Month Day" format
+    return dates.map((date) => date.toLocaleDateString('en-US', options)); // Return dates in "Month Day" format
   };
 
   return (
@@ -185,14 +184,14 @@ export default function Main() {
           <div className="flex flex-row gap-2 mt-4 md:mt-0">
             <Button
               variant="outline"
-              onClick={() => router.push("/deposit")}
+              onClick={() => router.push('/deposit')}
               size="sm"
             >
               Deposit
             </Button>
             <Button
               variant="outline"
-              onClick={() => router.push("/withdraw")}
+              onClick={() => router.push('/withdraw')}
               size="sm"
             >
               Withdraw
@@ -202,9 +201,10 @@ export default function Main() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="h-full">
             <CardHeader>
-              <CardTitle>Fund Balance</CardTitle>
+              <CardTitle>Balance</CardTitle>
             </CardHeader>
-            <CardContent>
+            <hr />
+            <CardContent className="mt-10">
               <LinechartChart className="aspect-[9/4]" data={balanceHistory} />
             </CardContent>
           </Card>
@@ -212,15 +212,8 @@ export default function Main() {
             <CardHeader>
               <CardTitle>Tabular Summary</CardTitle>
             </CardHeader>
+            <hr />
             <CardContent>
-              {/* The table should contain 3 columns. 
-
-First column is for Jason and below that are checkboxes that corresponds if he has deposited to a certain date.
-
-Second column is the dates starting from July 17, to July 24.
-
-Third column is for Ely, this looks smilar to the first column. below are checkboxes that corresponds if he has deposited to a certain date. */}
-
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-muted-foreground">
                   <thead className="border-b">
@@ -232,32 +225,32 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
                       </th>
                       <th scope="col" className="px-6 py-3">
                         <div className="flex items-center justify-center">
-                          <p className="text-sm font-medium">Jason</p>
+                          <p className="text-sm font-medium">jay</p>
                         </div>
                       </th>
 
                       <th scope="col" className="px-6 py-3">
                         <div className="flex items-center justify-center">
-                          <p className="text-sm font-medium">Ely</p>
+                          <p className="text-sm font-medium">ely</p>
                         </div>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {getLastFiveDays().map((date, index) => {
+                    {getWeek().map((date, index) => {
                       const jasonDeposit = deposits.find(
                         (deposit) =>
                           new Date(deposit.depositDate).toLocaleDateString(
-                            "en-US",
-                            { month: "long", day: "numeric" }
-                          ) === date && deposit.name === "Jason"
+                            'en-US',
+                            { month: 'long', day: 'numeric' }
+                          ) === date && deposit.name === 'jay'
                       );
                       const elyDeposit = deposits.find(
                         (deposit) =>
                           new Date(deposit.depositDate).toLocaleDateString(
-                            "en-US",
-                            { month: "long", day: "numeric" }
-                          ) === date && deposit.name === "Ely"
+                            'en-US',
+                            { month: 'long', day: 'numeric' }
+                          ) === date && deposit.name === 'ely'
                       );
 
                       return (
@@ -293,7 +286,7 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col items-center justify-center p-4 border rounded-lg shadow">
               <p className="text-4xl font-bold">
-                ₱{balance !== null ? balance : "Loading..."}
+                ₱{balance !== null ? balance : 'Loading...'}
               </p>
               <p className="text-muted-foreground text-sm">
                 Current Fund Balance
@@ -301,7 +294,7 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
             </div>
             <div className="flex flex-col items-center justify-center p-4 border rounded-lg shadow">
               <p className="text-4xl font-bold">
-                ₱{dailyDeposit !== null ? dailyDeposit : "Loading..."}
+                ₱{dailyDeposit !== null ? dailyDeposit : 'Loading...'}
               </p>
               <p className="text-muted-foreground text-sm">
                 Deposit Amount Per Day
@@ -314,6 +307,7 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
             <CardHeader>
               <CardTitle>Recent Deposits</CardTitle>
             </CardHeader>
+            <hr />
             <CardContent>
               {deposits.slice(0, 5).map((deposit) => (
                 <div
@@ -343,6 +337,7 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
             <CardHeader>
               <CardTitle>Recent Withdrawals</CardTitle>
             </CardHeader>
+            <hr />
             <CardContent>
               {withdrawals.slice(0, 5).map((withdrawal) => (
                 <div
@@ -370,7 +365,6 @@ Third column is for Ely, this looks smilar to the first column. below are checkb
           </Card>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
