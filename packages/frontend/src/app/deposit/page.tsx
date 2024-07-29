@@ -15,9 +15,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { Auth, API } from 'aws-amplify';
 import { DepositType } from '@/types/deposit';
 import { BalanceType } from '@/types/balance';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function DepositPage() {
   const [name, setName] = useState('');
@@ -29,6 +31,7 @@ export default function DepositPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -114,6 +117,12 @@ export default function DepositPage() {
         balanceAmount: newBalanceAmount,
         balanceDate: depositDate,
       });
+      toast({
+        title: 'Deposit Submitted',
+        description: 'Your deposit has been submitted successfully.',
+        duration: 5000,
+      });
+
       router.push('/home');
     } catch (err) {
       console.error('Error creating deposit:', err);
@@ -147,6 +156,7 @@ export default function DepositPage() {
             Back to Dashboard
           </Link>
         </div>
+
         <form onSubmit={handleSubmit}>
           <Card className="max-w-md mx-auto mt-10">
             <CardHeader>
@@ -214,6 +224,7 @@ export default function DepositPage() {
           </Card>
         </form>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { ArrowDownIcon } from '@/components/ui/ArrowDownIcon';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { Auth, API } from 'aws-amplify';
 import { useRouter } from 'next/navigation';
 import { DepositType } from './../../types/deposit';
@@ -23,6 +24,8 @@ export default function Main() {
   const [deposits, setDeposits] = useState<DepositType[]>([]);
   const [withdrawals, setWithdrawals] = useState<WithdrawType[]>([]);
   const [balanceHistory, setBalanceHistory] = useState([]);
+  const [billDates, setBillDates] = useState<string[]>([]);
+  const [newBillDate, setNewBillDate] = useState('');
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -173,6 +176,14 @@ export default function Main() {
     return dates.map((date) => date.toLocaleDateString('en-US', options)); // Return dates in "Month Day" format
   };
 
+  const handleAddBillDate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newBillDate) {
+      setBillDates([...billDates, newBillDate]);
+      setNewBillDate('');
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -181,22 +192,6 @@ export default function Main() {
           <h2 className="text-2xl font-bold text-center md:text-left">
             Welcome back, {name}!
           </h2>
-          <div className="flex flex-row gap-2 mt-4 md:mt-0">
-            <Button
-              variant="outline"
-              onClick={() => router.push('/deposit')}
-              size="sm"
-            >
-              Deposit
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/withdraw')}
-              size="sm"
-            >
-              Withdraw
-            </Button>
-          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="h-full">
@@ -204,7 +199,7 @@ export default function Main() {
               <CardTitle>Balance</CardTitle>
             </CardHeader>
             <hr />
-            <CardContent className="mt-10">
+            <CardContent className="mt-5">
               <LinechartChart className="aspect-[9/4]" data={balanceHistory} />
             </CardContent>
           </Card>
@@ -364,7 +359,43 @@ export default function Main() {
             </CardContent>
           </Card>
         </div>
+        <div className="mt-6 grid grid-cols-1 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Bills</CardTitle>
+            </CardHeader>
+            <hr />
+            <CardContent>
+              <form
+                onSubmit={handleAddBillDate}
+                className="flex flex-col space-y-4"
+              >
+                <input
+                  type="date"
+                  value={newBillDate}
+                  onChange={(e) => setNewBillDate(e.target.value)}
+                  className="border rounded p-2"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white rounded p-2"
+                >
+                  Add Bill Date
+                </button>
+              </form>
+              <ul className="mt-4">
+                {billDates.map((date, index) => (
+                  <li key={index} className="border-b py-2">
+                    {new Date(date).toLocaleDateString()}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
       </main>
+      <Footer />
     </>
   );
 }

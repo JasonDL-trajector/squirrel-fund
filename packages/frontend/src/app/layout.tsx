@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import "./globals.css";
-import AmplifyProvider from "@/components/AmplifyProvider";
+import type { Metadata } from 'next';
+import { Roboto } from 'next/font/google';
+import './globals.css';
+import AmplifyProvider from '@/components/AmplifyProvider';
+import { Toaster } from '@/components/ui/toaster';
 
-const roboto = Roboto({ subsets: ["greek"], weight: "400"});
+const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 export const metadata: Metadata = {
-  title: "Squirrel Fund",
-  description: "Squirrel Fund",
+  title: 'Squirrel Fund',
+  description: 'Squirrel Fund',
 };
 
 export default function RootLayout({
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-         <script
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               window.global = window;
@@ -28,13 +29,12 @@ export default function RootLayout({
         />
       </head>
       <body className={roboto.className}>
-
-        <div className="flex flex-col h-screen bg-background">  
+        <div className="flex flex-col h-screen bg-background">
           <AmplifyProvider>
             {children}
+            <Toaster />
           </AmplifyProvider>
         </div>
-      
       </body>
     </html>
   );

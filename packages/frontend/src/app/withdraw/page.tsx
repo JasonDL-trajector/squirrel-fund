@@ -15,9 +15,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { Auth, API } from 'aws-amplify';
 import { WithdrawType } from '@/types/withdraw';
 import { BalanceType } from '@/types/balance';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function WithdrawPage() {
   const [name, setName] = useState('');
@@ -28,6 +30,7 @@ export default function WithdrawPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -113,6 +116,12 @@ export default function WithdrawPage() {
       await createBalance({
         balanceAmount: newBalanceAmount,
         balanceDate: withdrawDate,
+      });
+
+      toast({
+        title: 'Withdrawal Submitted',
+        description: 'Your withdrawal has been submitted successfully.',
+        duration: 5000,
       });
       router.push('/home');
     } catch (err) {
@@ -215,6 +224,7 @@ export default function WithdrawPage() {
           </Card>
         </form>
       </main>
+      <Footer />
     </div>
   );
 }
