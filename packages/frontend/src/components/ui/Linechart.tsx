@@ -23,7 +23,7 @@ const LinechartChart = ({
         config={{
           balance: {
             label: 'Balance',
-            color: '#334155',
+            color: 'green',
           },
         }}
       >

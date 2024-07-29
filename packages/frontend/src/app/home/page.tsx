@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { DepositType } from './../../types/deposit';
 import { WithdrawType } from './../../types/withdraw';
 import { CheckIcon } from '@radix-ui/react-icons';
+import Bills from '@/components/Bills';
 
 export default function Main() {
   const apiEndpoint = process.env.API_URL;
@@ -360,39 +361,7 @@ export default function Main() {
           </Card>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Bills</CardTitle>
-            </CardHeader>
-            <hr />
-            <CardContent>
-              <form
-                onSubmit={handleAddBillDate}
-                className="flex flex-col space-y-4"
-              >
-                <input
-                  type="date"
-                  value={newBillDate}
-                  onChange={(e) => setNewBillDate(e.target.value)}
-                  className="border rounded p-2"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white rounded p-2"
-                >
-                  Add Bill Date
-                </button>
-              </form>
-              <ul className="mt-4">
-                {billDates.map((date, index) => (
-                  <li key={index} className="border-b py-2">
-                    {new Date(date).toLocaleDateString()}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          <Bills />
         </div>
       </main>
       <Footer />

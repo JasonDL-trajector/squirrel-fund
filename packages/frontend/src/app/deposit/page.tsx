@@ -158,7 +158,7 @@ export default function DepositPage() {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <Card className="max-w-md mx-auto mt-10">
+          <Card className="max-w-md mx-auto mt-0 scale-90 md:scale-100">
             <CardHeader>
               <CardTitle>New Deposit</CardTitle>
               <CardDescription>

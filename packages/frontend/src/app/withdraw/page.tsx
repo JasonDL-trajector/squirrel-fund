@@ -157,7 +157,7 @@ export default function WithdrawPage() {
           </Link>
         </div>
         <form onSubmit={handleSubmit}>
-          <Card className="max-w-md mx-auto mt-10">
+          <Card className="max-w-md mx-auto scale-90">
             <CardHeader>
               <CardTitle>New Withdrawal</CardTitle>
               <CardDescription>
