@@ -24,6 +24,7 @@ Squirrel Fund is a web application built with Next.js and SST, designed to help 
   - AWS Amplify
   - AWS Lambda
   - DynamoDB for data storage
+  - S3 Bucket for storing images
 - **Auth**:
   - Cognito
 
