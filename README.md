@@ -19,11 +19,11 @@ Squirrel Fund is a web application built with Next.js and SST, designed to help 
   - TypeScript
   - Tailwind CSS
   - shadcn/ui
-  - Recharts for data visualization
+  - Recharts
 - **Backend**: 
   - AWS Lambda
-  - DynamoDB for data storage
-  - S3 Bucket for storing images
+  - DynamoDB
+  - S3 Bucket
 - **Auth**:
   - AWS Amplify
   - Cognito
