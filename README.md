@@ -48,9 +48,7 @@ cd squirrel-fund
 2. Install dependencies:
 
 ```bash
-cd packages/frontend
-npm install
-
+pnpm install
 ```
 
 ### Running the Application
