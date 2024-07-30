@@ -1,7 +1,6 @@
-// src/components/AmplifyProvider.tsx
-"use client";
+'use client';
 import { ReactNode, useEffect } from 'react';
-import { Amplify} from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import config from '../config';
 
 interface AmplifyProviderProps {
@@ -26,7 +25,7 @@ const AmplifyProvider = ({ children }: AmplifyProviderProps) => {
       API: {
         endpoints: [
           {
-            name: "deposit",
+            name: 'deposit',
             endpoint: config.apiGateway.API_URL,
             region: config.apiGateway.REGION,
           },

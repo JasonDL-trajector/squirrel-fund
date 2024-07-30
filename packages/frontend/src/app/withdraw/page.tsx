@@ -1,6 +1,8 @@
 'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import {
   Card,
   CardHeader,
@@ -12,16 +14,20 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
+import {
+  fetchUser,
+  fetchBalance,
+  createWithdrawal,
+  createBalance,
+} from '@/lib/API';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Auth, API } from 'aws-amplify';
-import { WithdrawType } from '@/types/withdraw';
-import { BalanceType } from '@/types/balance';
-import { useToast } from '@/components/ui/use-toast';
+import Link from 'next/link';
 
 export default function WithdrawPage() {
+  const router = useRouter();
+  const { toast } = useToast();
   const [name, setName] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [withdrawNote, setWithdrawNote] = useState('');
@@ -29,74 +35,15 @@ export default function WithdrawPage() {
   const [balance, setBalance] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const router = useRouter();
-  const { toast } = useToast();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        setName(user.attributes.name || '');
-        console.log('User name:', user.attributes.name);
-
-        const fetchBalance = async () => {
-          try {
-            const response = await API.get('deposit', `/balance`, {});
-            const sortedBalances = response.sort(
-              (
-                a: { balanceDate: string | number | Date },
-                b: { balanceDate: string | number | Date }
-              ) =>
-                new Date(b.balanceDate).getTime() -
-                new Date(a.balanceDate).getTime()
-            );
-
-            if (sortedBalances.length > 0 && sortedBalances[0].balanceAmount) {
-              setBalance(sortedBalances[0].balanceAmount);
-            } else {
-              console.error('No balance returned from API');
-              setBalance(0);
-            }
-          } catch (error) {
-            console.error('Error fetching balance:', error);
-            setBalance(0);
-          }
-        };
-
-        fetchBalance();
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-
-    fetchUser();
+    try {
+      fetchUser(setName);
+      fetchBalance(setBalance);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
   }, []);
-
-  const createWithdrawal = async (withdraw: WithdrawType) => {
-    try {
-      const response = await API.post('deposit', `/withdraw`, {
-        body: withdraw,
-      });
-      console.log('Withdrawal created successfully:', response);
-      return response;
-    } catch (error) {
-      console.error('Error creating withdrawal:', error);
-      throw error;
-    }
-  };
-
-  const createBalance = async (balance: BalanceType) => {
-    try {
-      const response = await API.post('deposit', `/balance`, {
-        body: balance,
-      });
-      console.log('Balance created successfully:', response);
-      return response;
-    } catch (error) {
-      console.error('Error creating balance:', error);
-      throw error;
-    }
-  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -136,7 +83,6 @@ export default function WithdrawPage() {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
-    // Allow only digits and limit to 5 characters
     if (/^\d{0,5}$/.test(value)) {
       setWithdrawAmount(Number(value));
     }
@@ -171,7 +117,7 @@ export default function WithdrawPage() {
                 <Label htmlFor="amount">Amount</Label>
                 <Input
                   id="amount"
-                  type="text" // Change to text to control input
+                  type="text"
                   value={withdrawAmount}
                   onChange={handleWithdrawAmountChange}
                   required

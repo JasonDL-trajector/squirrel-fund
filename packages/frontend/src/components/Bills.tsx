@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
   Dialog,
@@ -12,9 +12,10 @@ import { Button } from '@/components/ui/button';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import './styles.css';
 import { Input } from './ui/input';
-import { API, Auth } from 'aws-amplify';
-import { BillType } from '@/types/bill';
+import { API } from 'aws-amplify';
+import { BillType } from '@/types/types';
 import { CheckIcon } from '@radix-ui/react-icons';
+import { fetchBills, createBill, editBill, deleteBill, toggleBillPaid } from '@/lib/API';
 
 export default function Bills() {
   const [billName, setBillName] = useState('');
@@ -28,88 +29,8 @@ export default function Bills() {
   const [openBillId, setOpenBillId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchBills = async () => {
-      try {
-        const user = await Auth.currentAuthenticatedUser();
-        const response = await API.get('deposit', '/bill', {});
-        setBillList(response);
-      } catch (error) {
-        console.error('Error fetching bills:', error);
-      }
-    };
-
-    fetchBills();
+    fetchBills(setBillList);
   }, []);
-
-  const handleAddBill = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (billName && billDate) {
-      try {
-        const response = await API.post('deposit', '/bill', {
-          body: {
-            billName: billName,
-            billAmount: billAmount,
-            billDate: billDate,
-            billPaid: billPaid,
-          },
-        });
-        setBillList([...billList, { ...response, paid: false }]);
-        resetForm();
-      } catch (error) {
-        console.error('Error adding bill:', error);
-      }
-    }
-  };
-
-  const handleEditBill = async (id: string) => {
-    if (editingBill) {
-      try {
-        await API.put('deposit', `/bill/${id}`, {
-          body: {
-            billName,
-            billAmount,
-            billDate,
-            billPaid,
-          },
-        });
-        const updatedBills = billList.map((bill) =>
-          bill.billId === id
-            ? { ...bill, billName, billAmount, billDate, billPaid }
-            : bill
-        );
-        setBillList(updatedBills);
-        resetForm(); // Reset form after editing
-      } catch (error) {
-        console.error('Error updating bill:', error);
-      }
-    }
-  };
-
-  const handleDeleteBill = async (id: string) => {
-    try {
-      await API.del('deposit', `/bill/${id}`, {});
-      setBillList(billList.filter((bill) => bill.billId !== id));
-    } catch (error) {
-      console.error('Error deleting bill:', error);
-    }
-  };
-
-  const toggleBillPaid = async (id: string) => {
-    const updatedBills = billList.map((bill) =>
-      bill.billId === id ? { ...bill, billPaid: !bill.billPaid } : bill
-    );
-    setBillList(updatedBills);
-
-    // Optionally update the backend
-    await API.put('deposit', `/bill/${id}`, {
-      body: {
-        billName: billList.find((bill) => bill.billId === id)?.billName,
-        billAmount: billList.find((bill) => bill.billId === id)?.billAmount,
-        billDate: billList.find((bill) => bill.billId === id)?.billDate,
-        billPaid: !billList.find((bill) => bill.billId === id)?.billPaid,
-      },
-    });
-  };
 
   const resetForm = () => {
     setBillName('');
@@ -190,7 +111,7 @@ export default function Bills() {
                         <Button
                           variant="ghost"
                           onClick={() =>
-                            toggleBillPaid(bill.billId?.toString() || '')
+                            toggleBillPaid(bill.billId?.toString() || '', billList, setBillList)
                           }
                           className="scale-75"
                         >
@@ -205,7 +126,7 @@ export default function Bills() {
                         </Button>
                         <Button
                           onClick={() =>
-                            handleDeleteBill(bill.billId?.toString() || '')
+                            deleteBill(bill.billId?.toString() || '', billList, setBillList)
                           }
                           className="scale-75"
                         >
@@ -234,10 +155,29 @@ export default function Bills() {
               </DialogHeader>
               <form
                 onSubmit={(e) => {
-                  e.preventDefault(); // Prevent default form submission
+                  e.preventDefault();
                   isEditing
-                    ? handleEditBill(editingBill?.billId || '')
-                    : handleAddBill(e);
+                    ? editBill(
+                        editingBill?.billId || '',
+                        billName,
+                        billAmount,
+                        billDate,
+                        billPaid,
+                        billList,
+                        setBillList,
+                        resetForm,
+                        editingBill
+                      )
+                    : createBill(
+                        e,
+                        billName,
+                        billAmount,
+                        billDate,
+                        billPaid,
+                        billList,
+                        setBillList,
+                        resetForm
+                      );
                 }}
               >
                 <div className="flex flex-col space-y-2 gap-2">

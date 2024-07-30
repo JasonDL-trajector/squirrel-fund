@@ -1,8 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
 import {
   Card,
   CardHeader,
@@ -13,10 +12,15 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { s3Download, s3Upload } from '@/lib/awsLib';
+import { fetchUser } from '@/lib/API';
+import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 
 const SettingsPage = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [name, setName] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [dailyDeposit, setDailyDeposit] = useState('');
@@ -24,24 +28,25 @@ const SettingsPage = () => {
   const [error, setError] = useState('');
   const [profilePictureUrl, setProfilePictureUrl] = useState('');
   const [profilePictureKey, setProfilePictureKey] = useState('');
-  const router = useRouter();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserData = async () => {
       try {
-        const user = await Auth.currentAuthenticatedUser();
-        setName(user.attributes.name || '');
+        const user = await fetchUser(setName);
         setProfilePictureKey(user.attributes['custom:profilePictureKey']);
         setDailyDeposit(user.attributes['custom:dailyDeposit']);
-        const pictureUrl = await s3Download(profilePictureKey);
+
+        const pictureUrl = await s3Download(
+          user.attributes['custom:profilePictureKey']
+        );
         setProfilePictureUrl(pictureUrl);
       } catch (error) {
         console.error('Error fetching user:', error);
       }
     };
 
-    fetchUser();
-  }, [profilePictureKey]);
+    fetchUserData();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,16 +54,12 @@ const SettingsPage = () => {
     setError('');
 
     try {
-      const user = await Auth.currentAuthenticatedUser();
-
-      // Update name
+      const user = await fetchUser(setName);
       await Auth.updateUserAttributes(user, { name });
-
       await Auth.updateUserAttributes(user, {
         'custom:dailyDeposit': dailyDeposit,
       });
 
-      // Handle file upload if a file is selected
       if (file) {
         const sanitizedUserName = name.replace(/\s+/g, '_');
         const fileName = `${sanitizedUserName}-${file.name}`;
@@ -70,7 +71,13 @@ const SettingsPage = () => {
         setProfilePictureUrl(pictureUrl);
       }
 
-      alert('Settings updated successfully!');
+      toast({
+        title: 'Settings Updated',
+        description: 'Your settings have been updated successfully.',
+        duration: 5000,
+      });
+
+      router.push('/home');
     } catch (error) {
       console.error('Error updating settings:', error);
       setError('Error updating settings');
@@ -115,7 +122,9 @@ const SettingsPage = () => {
               ) : (
                 <div className="mt-4 flex justify-center">
                   <img
-                    src={'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'}
+                    src={
+                      'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
+                    }
                     alt="Profile"
                     className="w-32 h-32 md:w-48 md:h-48"
                     style={{ borderRadius: '50%' }}
