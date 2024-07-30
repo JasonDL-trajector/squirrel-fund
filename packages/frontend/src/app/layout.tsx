@@ -3,12 +3,14 @@ import { Roboto } from 'next/font/google';
 import './globals.css';
 import AmplifyProvider from '@/components/AmplifyProvider';
 import { Toaster } from '@/components/ui/toaster';
+import Favicon from './favicon.ico';
 
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
 export const metadata: Metadata = {
   title: 'Squirrel Fund',
   description: 'Squirrel Fund',
+  icons: [{ rel: 'icon', url: Favicon.src }],
 };
 
 export default function RootLayout({
