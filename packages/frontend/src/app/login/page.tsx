@@ -15,10 +15,12 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { validateLoginForm } from '@/lib/utils';
+import { useToast } from '@/components/ui/use-toast';
 import Navbar from '@/components/Navbar';
 
 function Login() {
   const router = useRouter();
+  const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,6 +45,11 @@ function Login() {
 
     try {
       await Auth.signIn(email, password);
+      toast({
+        title: 'Success',
+        description: 'You have successfully logged in.',
+        duration: 2000,
+      });
       router.push('/home');
     } catch (error) {
       if (error instanceof Error) {
@@ -94,7 +101,7 @@ function Login() {
                   <Button variant="outline">Cancel</Button>
                   <Button
                     type="submit"
-                    disabled={!validateLoginForm(email, password)}
+                    // disabled={!validateLoginForm(email, password)}
                   >
                     Login
                   </Button>

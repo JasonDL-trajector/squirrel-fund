@@ -41,10 +41,8 @@ export default function Main() {
     <>
       <Navbar />
       <main className="flex-1 overflow-auto p-6">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-center md:text-left">
-            Welcome back, {name}!
-          </h2>
+        <div className="flex flex-col md:flex-row justify-between mb-6 ml-1">
+          <h2 className="text-2xl font-bold text-left">Dashboard</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <BalanceHistory />

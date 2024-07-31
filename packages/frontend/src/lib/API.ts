@@ -158,7 +158,6 @@ export const fetchBalanceHistory = async (
         b: { balanceDate: string | number | Date }
       ) => new Date(a.balanceDate).getTime() - new Date(b.balanceDate).getTime()
     );
-    console.log(sortedBalanceHistory);
     setBalanceHistory(sortedBalanceHistory);
   } catch (error) {
     console.error('Error fetching balance history:', error);
