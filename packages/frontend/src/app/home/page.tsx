@@ -10,6 +10,7 @@ import BalanceHistory from '@/components/balance-history/BalanceHistory';
 import RecentDeposits from '@/components/deposits/RecentDeposits';
 import RecentWithdrawals from '@/components/withdrawals/RecentWithdrawals';
 import Bills from '@/components/Bills';
+import Link from 'next/link';
 
 export default function Main() {
   const router = useRouter();
@@ -46,7 +47,9 @@ export default function Main() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <BalanceHistory />
-          <TabularSummary />
+          <Link href="/tabular-full">
+            <TabularSummary />
+          </Link>
         </div>
         <div className="bg-card rounded-lg shadow-md p-6 space-y-6 mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -69,8 +72,12 @@ export default function Main() {
           </div>
         </div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Link href="/deposits-full">
           <RecentDeposits />
+          </Link>
+        <Link href="/withdraws-full">
           <RecentWithdrawals />
+        </Link>
         </div>
         <div className="mt-6 grid grid-cols-1 gap-6">
           <Bills />

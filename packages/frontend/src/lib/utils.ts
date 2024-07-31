@@ -37,6 +37,23 @@ export const getWeek = () => {
   return dates.map((date) => date.toLocaleDateString('en-US', options));
 };
 
+export const getAllDays = () => {
+  const startDate = new Date('2024-07-08');
+  const today = new Date();
+
+  const dates = [];
+  for (let d = new Date(startDate); d <= today; d.setDate(d.getDate() + 1)) {
+    dates.push(new Date(d));
+  }
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: 'long',
+    day: 'numeric',
+  };
+  return dates.map((date) => date.toLocaleDateString('en-US', options));
+};
+
+
 export function validateLoginForm(email: string, password: string) {
   return email.length > 0 && password.length > 0;
 }

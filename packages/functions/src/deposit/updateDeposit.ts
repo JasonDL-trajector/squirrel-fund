@@ -5,13 +5,19 @@ import dynamoDb from "@squirrel-fund/core/dynamodb";
 export const main = handler(async (event) => {
   const data = JSON.parse(event.body || "{}");
 
+  console.log(data);
+  console.log(event.pathParameters?.id);
+
   const params = {
     TableName: Table.DepositTable.tableName,
     Key: {
       userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
       depositId: event.pathParameters?.id,
     },
-    UpdateExpression: "SET name = :name, depositAmount = :depositAmount, depositNote = :depositNote, depositDate = :depositDate",
+    UpdateExpression: "SET #name = :name, depositAmount = :depositAmount, depositNote = :depositNote, depositDate = :depositDate",
+    ExpressionAttributeNames: {
+      "#name": "name",
+    },
     ExpressionAttributeValues: {
       ":name": data.name || null,
       ":depositAmount": data.depositAmount || null,

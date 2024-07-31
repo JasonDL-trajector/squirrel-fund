@@ -73,6 +73,15 @@ export const fetchDeposits = async (
   }
 };
 
+export const fetchDepositById = async (id: string) => {
+  try {
+    const response = await API.get('deposit', `/deposit/${id}`, {});
+    return response;
+  } catch (error) {
+    console.error('Error fetching deposit by ID:', error);
+  }
+};
+
 export const createDeposit = async (deposit: DepositType) => {
   try {
     const response = await API.post('deposit', `/deposit`, {
@@ -82,6 +91,19 @@ export const createDeposit = async (deposit: DepositType) => {
     return response;
   } catch (error) {
     console.error('Error creating deposit:', error);
+    throw error;
+  }
+};
+
+export const updateDeposit = async (id: string, deposit: DepositType) => {
+  try {
+    const response = await API.put('deposit', `/deposit/${id}`, {
+      body: deposit,
+    });
+    console.log('Deposit updated successfully:', response);
+    return response;
+  } catch (error) {
+    console.error('Error updating deposit:', error);
     throw error;
   }
 };
@@ -107,6 +129,15 @@ export const fetchWithdrawals = async (
   }
 };
 
+export const fetchWithdrawalById = async (id: string) => {
+  try {
+    const response = await API.get('deposit', `/withdraw/${id}`, {});
+    return response;
+  } catch (error) {
+    console.error('Error fetching withdrawal by ID:', error);
+  }
+};
+
 export const createWithdrawal = async (withdraw: WithdrawType) => {
   try {
     const response = await API.post('deposit', `/withdraw`, {
@@ -116,6 +147,19 @@ export const createWithdrawal = async (withdraw: WithdrawType) => {
     return response;
   } catch (error) {
     console.error('Error creating withdrawal:', error);
+    throw error;
+  }
+};
+
+export const updateWithdrawal = async (id: string, withdraw: WithdrawType) => {
+  try {
+    const response = await API.put('deposit', `/withdraw/${id}`, {
+      body: withdraw,
+    });
+    console.log('Withdrawal updated successfully:', response);
+    return response;
+  } catch (error) {
+    console.error('Error updating withdrawal:', error);
     throw error;
   }
 };
