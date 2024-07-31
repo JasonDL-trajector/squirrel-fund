@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import { Amplify } from 'aws-amplify';
 import config from '../config'; 
 
@@ -6,7 +7,7 @@ const configureAmplify = () => {
   console.log(config);
   
   Amplify.configure({
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+
     Auth: {
       mandatorySignIn: true,
       region: config.cognito.REGION,

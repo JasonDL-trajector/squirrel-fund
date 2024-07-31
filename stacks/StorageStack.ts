@@ -1,8 +1,8 @@
 import { Bucket, StackContext, Table } from 'sst/constructs';
 
-export function StorageStack({ stack }: StackContext) {
+export function StorageStack({ stack, app }: StackContext) {
   const bucket = new Bucket(stack, 'SquirrelFundBucket', {
-    name: 'ejd-squirrel-fund-bucket',
+    name: `${app.stage}-squirrel-fund-bucket`,
     cors: [
       {
         maxAge: '1 day',

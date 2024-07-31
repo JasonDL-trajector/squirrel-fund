@@ -167,8 +167,8 @@ export const updateWithdrawal = async (id: string, withdraw: WithdrawType) => {
 // END OF WITHDRAW============================================================================
 
 // BALANCE
-export const fetchBalance = async (
-  setBalance: React.Dispatch<React.SetStateAction<number | null>>
+export const fetchLatestBalance = async (
+  setBalance: React.Dispatch<React.SetStateAction<any>>
 ) => {
   try {
     const response = await API.get('deposit', `/balance`, {});
@@ -180,14 +180,37 @@ export const fetchBalance = async (
     );
 
     if (sortedBalances.length > 0 && sortedBalances[0].balanceAmount) {
-      setBalance(sortedBalances[0].balanceAmount);
+      setBalance(sortedBalances[0]);
     } else {
       console.error('No balance returned from API');
       setBalance(0);
     }
   } catch (error) {
     console.error('Error fetching balance:', error);
-    setBalance(0);
+  }
+}
+  
+export const fetchLatestBalanceAmount = async (
+  setBalanceAmount: React.Dispatch<React.SetStateAction<any>>
+) => {
+  try {
+    const response = await API.get('deposit', `/balance`, {});
+    const sortedBalances = response.sort(
+      (
+        a: { balanceDate: string | number | Date },
+        b: { balanceDate: string | number | Date }
+      ) => new Date(b.balanceDate).getTime() - new Date(a.balanceDate).getTime()
+    );
+
+    if (sortedBalances.length > 0 && sortedBalances[0].balanceAmount) {
+      setBalanceAmount(sortedBalances[0].balanceAmount);
+    } else {
+      console.error('No balance returned from API');
+      setBalanceAmount(0);
+    }
+  } catch (error) {
+    console.error('Error fetching balance:', error);
+    setBalanceAmount(0);
   }
 };
 
@@ -220,6 +243,19 @@ export const createBalance = async (balance: BalanceType) => {
     throw error;
   }
 };
+
+export const updateBalance = async (id: string, balance: BalanceType) => {
+  try {
+    const response = await API.put('deposit', `/balance/${id}`, {
+      body: balance,
+    });
+    console.log('Balance updated successfully:', response);
+    return response;
+  } catch (error) {
+    console.error('Error updating balance:', error);
+    throw error;
+  }
+}
 
 // END OF BALANCE ============================================================================
 

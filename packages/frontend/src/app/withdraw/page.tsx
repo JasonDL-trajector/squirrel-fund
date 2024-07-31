@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import {
   fetchUser,
-  fetchBalance,
+  fetchLatestBalanceAmount,
   createWithdrawal,
   createBalance,
 } from '@/lib/API';
@@ -39,7 +39,7 @@ export default function WithdrawPage() {
   useEffect(() => {
     try {
       fetchUser(setName);
-      fetchBalance(setBalance);
+      fetchLatestBalanceAmount(setBalance);
     } catch (error) {
       console.error('Error fetching user:', error);
     }

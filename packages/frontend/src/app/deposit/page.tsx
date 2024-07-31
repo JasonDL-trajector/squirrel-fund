@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import {
   fetchUserDailyDeposit,
-  fetchBalance,
+  fetchLatestBalanceAmount,
   createDeposit,
   createBalance,
 } from '@/lib/API';
@@ -38,7 +38,7 @@ export default function DepositPage() {
 
   useEffect(() => {
     fetchUserDailyDeposit(setName, setDepositAmount);
-    fetchBalance(setBalance);
+    fetchLatestBalanceAmount(setBalance);
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

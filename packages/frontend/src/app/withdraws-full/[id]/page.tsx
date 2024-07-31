@@ -49,6 +49,7 @@ const WithdrawDetailPage = ({ params }: { params: { id: string } }) => {
           description: 'Your withdrawal has been updated successfully.',
           duration: 2000,
         });
+        setIsEditing(false);
     } catch (error) {
         console.error('Error updating deposit:', error);
     }

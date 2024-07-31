@@ -1,6 +1,6 @@
 import { CartesianGrid, XAxis, Line, LineChart } from 'recharts';
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from '../ui/chart';
-import { BalanceType } from '@/types/balance';
+import { BalanceType } from '@/types/types';
 
 const LinechartChart = ({
   data,
