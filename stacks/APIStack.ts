@@ -4,7 +4,7 @@ import { StorageStack } from './StorageStack';
 export function APIStack({ stack }: StackContext) {
   const { depositTable, withdrawTable, balanceTable, billTable } =
     use(StorageStack);
-  const STRIPE_SECRET_KEY = new Config.Secret(stack, 'STRIPE_SECRET_KEY');
+
 
   const api = new Api(stack, 'api', {
     defaults: {
@@ -15,7 +15,7 @@ export function APIStack({ stack }: StackContext) {
           withdrawTable,
           balanceTable,
           billTable,
-          STRIPE_SECRET_KEY,
+   
         ],
       },
     },
@@ -45,8 +45,6 @@ export function APIStack({ stack }: StackContext) {
       'POST /bill': 'packages/functions/src/bills/createBill.main',
       'PUT /bill/{id}': 'packages/functions/src/bills/updateBill.main',
       'DELETE /bill/{id}': 'packages/functions/src/bills/deleteBill.main',
-
-      'POST /billing': 'packages/functions/src/billing.main',
     },
   });
 
