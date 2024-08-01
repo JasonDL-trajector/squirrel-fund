@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "sst bind next dev",
-    "build": "sst bind npx open-next build",
+    "build": "npx open-next build",
     "start": "next start",
     "lint": "next lint"
   },
