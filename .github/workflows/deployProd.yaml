@@ -27,6 +27,9 @@ jobs:
         with:
           node-version: '18'
       
+      - name: Install pnpm
+        run: npm install -g pnpm
+      
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -38,4 +41,4 @@ jobs:
         run: npm install
 
       - name: Deploy SST app to Prod
-        run: npx sst deploy --stage ejd-prod
+        run: pnpm sst deploy --stage ejd-prod
