@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "sst bind next dev",
-    "build": "next build",
+    "build": "sst bind npx open-next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -24,6 +24,7 @@
     "daisyui": "^4.12.10",
     "lucide-react": "^0.408.0",
     "next": "14.2.5",
+    "open-next": "^3.0.8",
     "react": "^18",
     "react-dom": "^18",
     "recharts": "^2.12.7",
@@ -34,6 +35,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "amazon-cognito-identity-js": "^6.3.12",
     "autoprefixer": "^10.4.19",
     "eslint": "^8",

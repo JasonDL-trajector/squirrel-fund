@@ -1,7 +1,8 @@
-import { StackContext, NextjsSite, use } from "sst/constructs";
+import { StackContext, NextjsSite, use, } from "sst/constructs";
 import { APIStack } from "./APIStack";
 import { AuthStack } from "./AuthStack";
 import { StorageStack } from "./StorageStack";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 export function FrontendStack({ stack, app }: StackContext) {
   const { api } = use(APIStack);
@@ -11,6 +12,7 @@ export function FrontendStack({ stack, app }: StackContext) {
   const site = new NextjsSite(stack, "NextJSSite", {
     path: "packages/frontend",
     buildCommand: "pnpm run build",
+    openNextVersion: "latest",
     environment: {
       API_URL: api.url,
       REGION: app.region,
@@ -18,7 +20,13 @@ export function FrontendStack({ stack, app }: StackContext) {
       USER_POOL_ID: auth.userPoolId,
       USER_POOL_CLIENT_ID: auth.userPoolClientId,
       IDENTITY_POOL_ID: auth.cognitoIdentityPoolId || "",
-    } 
+    },
+    permissions: [
+      new PolicyStatement({
+        actions: ["iot:DescribeEndpoint"],
+        resources: ["*"], // Adjust the resource as needed
+      }),
+    ],
   })
 
   stack.addOutputs({

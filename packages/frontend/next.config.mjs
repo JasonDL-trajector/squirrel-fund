@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    distDir: ".open-next",
     env: {
         API_URL: process.env.API_URL,
         REGION: process.env.REGION,
