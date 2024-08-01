@@ -34,9 +34,6 @@ jobs:
           role-duration-seconds: 3600
           aws-region: us-east-1
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
       - name: Install dependencies
         run: pnpm install
 
