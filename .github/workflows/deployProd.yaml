@@ -35,7 +35,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Deploy SST app to Prod
-        run: pnpm sst deploy --stage ejd-prod
+        run: npx sst deploy --stage ejd-prod
