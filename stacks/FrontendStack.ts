@@ -22,7 +22,7 @@ export function FrontendStack({ stack, app }: StackContext) {
     permissions: [
       new PolicyStatement({
         actions: ["iot:DescribeEndpoint"],
-        resources: ["*"], // Adjust the resource as needed
+        resources: ["*"],
       }),
     ],
   })

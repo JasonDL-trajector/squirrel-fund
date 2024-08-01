@@ -35,6 +35,13 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
+    console.log(process.env.REGION);
+    console.log(process.env.BUCKET);
+    console.log(process.env.USER_POOL_ID);
+    console.log(process.env.USER_POOL_CLIENT_ID);
+  });
+
+  useEffect(() => {
     if (isAuthenticated === false) {
       console.log('Not an authenticated user, redirecting to login');
       router.push('/login');

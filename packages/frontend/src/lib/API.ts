@@ -7,32 +7,32 @@ import {
 } from '@/types/types';
 import { Amplify } from 'aws-amplify';
 
-Amplify.configure({
-  Auth: {
-    mandatorySignIn: true,
-    region: process.env.REGION,
-    userPoolId: process.env.USER_POOL_ID,
-    identityPoolId: process.env.IDENTITY_POOL_ID,
-    userPoolWebClientId: process.env.APP_CLIENT_ID,
-  },
-  Storage: {
-    region: process.env.REGION,
-    bucket: process.env.BUCKET,
-    identityPoolId: process.env.IDENTITY_POOL_ID,
-  },
-  API: {
-    endpoints: [
-      {
-        name: 'deposit',
-        endpoint: process.env.API_URL,
-        region: process.env.REGION,
-        userPoolId: process.env.USER_POOL_ID,
-        identityPoolId: process.env.IDENTITY_POOL_ID,
-        userPoolWebClientId: process.env.APP_CLIENT_ID,
-      },
-    ],
-  },
-});
+// Amplify.configure({
+//   Auth: {
+//     mandatorySignIn: true,
+//     region: process.env.REGION,
+//     userPoolId: process.env.USER_POOL_ID,
+//     identityPoolId: process.env.IDENTITY_POOL_ID,
+//     userPoolWebClientId: process.env.APP_CLIENT_ID,
+//   },
+//   Storage: {
+//     region: process.env.REGION,
+//     bucket: process.env.BUCKET,
+//     identityPoolId: process.env.IDENTITY_POOL_ID,
+//   },
+//   API: {
+//     endpoints: [
+//       {
+//         name: 'deposit',
+//         endpoint: process.env.API_URL,
+//         region: process.env.REGION,
+//         userPoolId: process.env.USER_POOL_ID,
+//         identityPoolId: process.env.IDENTITY_POOL_ID,
+//         userPoolWebClientId: process.env.APP_CLIENT_ID,
+//       },
+//     ],
+//   },
+// });
 
 // AUTHENTICATION
 export const checkAuth = async (
