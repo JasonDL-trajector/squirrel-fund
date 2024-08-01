@@ -38,7 +38,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Deploy SST app to Prod
         run: pnpm sst deploy --stage ejd-prod
