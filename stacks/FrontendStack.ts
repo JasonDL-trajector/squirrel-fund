@@ -11,8 +11,6 @@ export function FrontendStack({ stack, app }: StackContext) {
 
   const site = new NextjsSite(stack, "NextJSSite", {
     path: "packages/frontend",
-    buildCommand: "pnpm run build",
-    openNextVersion: "latest",
     environment: {
       API_URL: api.url,
       REGION: app.region,
