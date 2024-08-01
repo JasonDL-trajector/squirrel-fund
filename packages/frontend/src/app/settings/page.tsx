@@ -111,27 +111,16 @@ const SettingsPage = () => {
             <CardContent className="space-y-4">
               {error && <p className="text-red-500">{error}</p>}
 
-              {profilePictureUrl ? (
+            
                 <div className="mt-4 flex justify-center">
-                  <Image
+                  <img
                     src={profilePictureUrl}
                     alt="Profile"
                     className="w-32 h-32 md:w-48 md:h-48"
                     style={{ borderRadius: '50%' }}
                   />
                 </div>
-              ) : (
-                <div className="mt-4 flex justify-center">
-                  <Image
-                    src={
-                      'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
-                    }
-                    alt="Profile"
-                    className="w-32 h-32 md:w-48 md:h-48"
-                    style={{ borderRadius: '50%' }}
-                  />
-                </div>
-              )}
+             
 
               <div className="space-y-2">
                 <label htmlFor="file">Avatar:</label>

@@ -67,44 +67,27 @@ const Navbar = () => {
       {isAuthenticated && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {profilePictureUrl ? (
-              <Image
+            
+              <img
                 src={profilePictureUrl}
                 alt="Profile"
                 className="w-8 h-8"
                 style={{ borderRadius: '50%' }}
               />
-            ) : (
-              <Image
-                src={
-                  'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
-                }
-                alt="Profile"
-                className="w-8 h-8"
-                style={{ borderRadius: '50%' }}
-              />
-            )}
+           
+            
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-background mt-3">
             <DropdownMenuItem asChild className="w-full">
               <div className="flex items-center gap-2">
-                {profilePictureUrl ? (
-                  <Image
+               
+                  <img
                     src={profilePictureUrl}
                     alt="Profile"
                     className="w-8 h-8"
                     style={{ borderRadius: '50%' }}
                   />
-                ) : (
-                  <Image
-                    src={
-                      'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
-                    }
-                    alt="Profile"
-                    className="w-8 h-8"
-                    style={{ borderRadius: '50%' }}
-                  />
-                )}
+               
                 <span className="font-semibold">{name}</span>
               </div>
             </DropdownMenuItem>
