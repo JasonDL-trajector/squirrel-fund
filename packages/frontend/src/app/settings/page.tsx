@@ -17,6 +17,7 @@ import { s3Download, s3Upload } from '@/lib/awsLib';
 import { fetchUser } from '@/lib/API';
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const SettingsPage = () => {
   const router = useRouter();
@@ -112,7 +113,7 @@ const SettingsPage = () => {
 
               {profilePictureUrl ? (
                 <div className="mt-4 flex justify-center">
-                  <img
+                  <Image
                     src={profilePictureUrl}
                     alt="Profile"
                     className="w-32 h-32 md:w-48 md:h-48"
@@ -121,7 +122,7 @@ const SettingsPage = () => {
                 </div>
               ) : (
                 <div className="mt-4 flex justify-center">
-                  <img
+                  <Image
                     src={
                       'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
                     }

@@ -17,6 +17,7 @@ import { Auth } from 'aws-amplify';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { s3Download } from '@/lib/awsLib';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [name, setName] = useState('');
@@ -67,14 +68,14 @@ const Navbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {profilePictureUrl ? (
-              <img
+              <Image
                 src={profilePictureUrl}
                 alt="Profile"
                 className="w-8 h-8"
                 style={{ borderRadius: '50%' }}
               />
             ) : (
-              <img
+              <Image
                 src={
                   'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
                 }
@@ -88,14 +89,14 @@ const Navbar = () => {
             <DropdownMenuItem asChild className="w-full">
               <div className="flex items-center gap-2">
                 {profilePictureUrl ? (
-                  <img
+                  <Image
                     src={profilePictureUrl}
                     alt="Profile"
                     className="w-8 h-8"
                     style={{ borderRadius: '50%' }}
                   />
                 ) : (
-                  <img
+                  <Image
                     src={
                       'https://static.vecteezy.com/system/resources/previews/019/879/186/original/user-icon-on-transparent-background-free-png.png'
                     }
