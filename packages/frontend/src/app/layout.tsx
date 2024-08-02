@@ -4,6 +4,7 @@ import './globals.css';
 import AmplifyProvider from '@/components/AmplifyProvider';
 import { Toaster } from '@/components/ui/toaster';
 import Favicon from './favicon.ico';
+import AppleIcon from './apple-touch-icon.png';
 
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   // icons: [{ rel: 'icon', url: Favicon.src }],
   icons: {
     icon: Favicon.src,
-    apple: Favicon.src,
+    apple: AppleIcon.src,
   }
 };
 
