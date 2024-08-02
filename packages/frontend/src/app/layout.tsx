@@ -11,11 +11,6 @@ const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 export const metadata: Metadata = {
   title: 'Squirrel Fund',
   description: 'Squirrel Fund',
-  // icons: [{ rel: 'icon', url: Favicon.src }],
-  icons: {
-    icon: Favicon.src,
-    apple: AppleIcon.src,
-  }
 };
 
 export default function RootLayout({
@@ -26,8 +21,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      <link rel="icon" href="./favicon.ico" sizes="any" />
-      <link rel="apple-touch-icon" href="./apple-touch-icon.png" /> {/* Ensure this line is present */}
+        <link
+          rel="icon"
+          href="/icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/apple-icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
