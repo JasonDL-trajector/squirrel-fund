@@ -26,6 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+      <link rel="icon" href="./favicon.ico" sizes="any" />
+      <link rel="apple-touch-icon" href="./apple-touch-icon.png" /> {/* Ensure this line is present */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
