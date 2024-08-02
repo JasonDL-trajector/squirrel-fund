@@ -10,7 +10,11 @@ const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 export const metadata: Metadata = {
   title: 'Squirrel Fund',
   description: 'Squirrel Fund',
-  icons: [{ rel: 'icon', url: Favicon.src }],
+  // icons: [{ rel: 'icon', url: Favicon.src }],
+  icons: {
+    icon: Favicon.src,
+    apple: Favicon.src,
+  }
 };
 
 export default function RootLayout({
