@@ -1,20 +1,23 @@
-import { Table } from 'sst/node/table';
-import handler from '@squirrel-fund/core/handler';
-import dynamoDb from '@squirrel-fund/core/dynamodb';
+import { Table } from "sst/node/table";
+import handler from "@squirrel-fund/core/handler";
+import dynamoDb from "@squirrel-fund/core/dynamodb";
 
 export const main = handler(async (event) => {
-  const params = {
-    TableName: Table.WithdrawTable.tableName,
-    Key: {
-      withdrawId: event.pathParameters?.id,
-    },
-  };
 
-  const result = await dynamoDb.get(params);
+	const params = {
+		TableName: Table.WithdrawTable.tableName,
+		Key: {
+				userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
+				withdrawId: event.pathParameters?.id,
+		},
+	};
 
-  if (!result.Item) {
-    throw new Error('Withdraw not found');
-  }
+	const result = await dynamoDb.get(params);
 
-  return JSON.stringify(result.Item);
+	if(!result.Item) {
+		throw new Error('Withdraw not found');
+	}
+
+	return JSON.stringify( result.Item );
 });
+   
