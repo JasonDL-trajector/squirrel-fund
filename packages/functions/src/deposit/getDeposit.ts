@@ -1,23 +1,20 @@
-import { Table } from "sst/node/table";
-import handler from "@squirrel-fund/core/handler";
-import dynamoDb from "@squirrel-fund/core/dynamodb";
+import { Table } from 'sst/node/table';
+import handler from '@squirrel-fund/core/handler';
+import dynamoDb from '@squirrel-fund/core/dynamodb';
 
 export const main = handler(async (event) => {
+  const params = {
+    TableName: Table.DepositTable.tableName,
+    Key: {
+      depositId: event.pathParameters?.id,
+    },
+  };
 
-	const params = {
-		TableName: Table.DepositTable.tableName,
-		Key: {
-				userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-				depositId: event.pathParameters?.id,
-		},
-	};
+  const result = await dynamoDb.get(params);
 
-	const result = await dynamoDb.get(params);
+  if (!result.Item) {
+    throw new Error('Deposit not found');
+  }
 
-	if(!result.Item) {
-		throw new Error('Deposit not found');
-	}
-
-	return JSON.stringify( result.Item );
+  return JSON.stringify(result.Item);
 });
-   

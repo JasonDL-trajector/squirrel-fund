@@ -1,9 +1,9 @@
-import { Table } from "sst/node/table";
-import handler from "@squirrel-fund/core/handler";
-import dynamoDb from "@squirrel-fund/core/dynamodb";
+import { Table } from 'sst/node/table';
+import handler from '@squirrel-fund/core/handler';
+import dynamoDb from '@squirrel-fund/core/dynamodb';
 
 export const main = handler(async (event) => {
-  const data = JSON.parse(event.body || "{}");
+  const data = JSON.parse(event.body || '{}');
 
   console.log(data);
   console.log(event.pathParameters?.id);
@@ -11,20 +11,20 @@ export const main = handler(async (event) => {
   const params = {
     TableName: Table.WithdrawTable.tableName,
     Key: {
-      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
       withdrawId: event.pathParameters?.id,
     },
-    UpdateExpression: "SET #name = :name, withdrawAmount = :withdrawAmount, withdrawNote = :withdrawNote, withdrawDate = :withdrawDate",
+    UpdateExpression:
+      'SET #name = :name, withdrawAmount = :withdrawAmount, withdrawNote = :withdrawNote, withdrawDate = :withdrawDate',
     ExpressionAttributeNames: {
-      "#name": "name",
+      '#name': 'name',
     },
     ExpressionAttributeValues: {
-      ":name": data.name || null,
-      ":withdrawAmount": data.withdrawAmount || null,
-      ":withdrawNote": data.withdrawNote || null,
-      ":withdrawDate": data.withdrawDate || null,
+      ':name': data.name || null,
+      ':withdrawAmount': data.withdrawAmount || null,
+      ':withdrawNote': data.withdrawNote || null,
+      ':withdrawDate': data.withdrawDate || null,
     },
-    ReturnValues: "ALL_NEW",
+    ReturnValues: 'ALL_NEW',
   };
   await dynamoDb.update(params);
 

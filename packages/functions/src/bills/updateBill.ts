@@ -8,7 +8,6 @@ export const main = handler(async (event) => {
   const params = {
     TableName: Table.BillTable.tableName,
     Key: {
-      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
       billId: event.pathParameters?.id,
     },
     UpdateExpression:
