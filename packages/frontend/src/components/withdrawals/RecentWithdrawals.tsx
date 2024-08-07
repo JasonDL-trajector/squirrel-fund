@@ -28,7 +28,7 @@ const RecentWithdrawals = () => {
               <ArrowDownIcon className="w-5 h-5 text-blue-500" stroke="red" />
               <div className="mt-3">
                 <p className="text-sm font-medium">
-                  {withdrawal.name} - {withdrawal.withdrawNote}
+                  <b>{withdrawal.name}</b> - {withdrawal.withdrawNote}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {formatDateTime(withdrawal.withdrawDate)}

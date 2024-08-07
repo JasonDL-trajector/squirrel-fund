@@ -31,7 +31,7 @@ const RecentDeposits = () => {
               />
               <div className="mt-3">
                 <p className="text-sm font-medium">
-                  {deposit.name} - {deposit.depositNote}
+                  <b>{deposit.name}</b> - {deposit.depositNote}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {formatDateTime(deposit.depositDate)}

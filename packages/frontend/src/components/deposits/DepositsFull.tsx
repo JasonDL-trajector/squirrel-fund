@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import { DepositType } from '@/types/types';
@@ -19,7 +19,7 @@ const DepositsFull = () => {
   useEffect(() => {
     fetchDeposits(setDeposits);
   }, []);
-  
+
   const handleNextPage = () => {
     if (currentPage < totalPages - 1) {
       setCurrentPage(currentPage + 1);
@@ -34,11 +34,11 @@ const DepositsFull = () => {
 
   const currentDeposits = deposits
     .slice()
-    .sort((a, b) => new Date(b.depositDate).getTime() - new Date(a.depositDate).getTime())
-    .slice(
-      currentPage * ITEMS_PER_PAGE,
-      (currentPage + 1) * ITEMS_PER_PAGE
-    );
+    .sort(
+      (a, b) =>
+        new Date(b.depositDate).getTime() - new Date(a.depositDate).getTime()
+    )
+    .slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE);
 
   return (
     <>
@@ -49,7 +49,10 @@ const DepositsFull = () => {
         <hr />
         <CardContent>
           {currentDeposits.map((deposit) => (
-            <Link key={deposit.depositId} href={`/deposits-full/${deposit.depositId}`}>
+            <Link
+              key={deposit.depositId}
+              href={`/deposits-full/${deposit.depositId}`}
+            >
               <div className="grid grid-cols-[25px_1fr_50px] items-center gap-4 border-b pb-4 last:border-b-0 last:pb-0 cursor-pointer">
                 <ArrowDownIcon
                   className="w-5 h-5 text-green-500 rotate-180"
@@ -57,7 +60,7 @@ const DepositsFull = () => {
                 />
                 <div className="mt-3">
                   <p className="text-sm font-medium">
-                    {deposit.name} - {deposit.depositNote}
+                    <b>{deposit.name}</b> - {deposit.depositNote}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {formatDateTime(deposit.depositDate)}
@@ -69,23 +72,30 @@ const DepositsFull = () => {
               </div>
               <hr />
             </Link>
-            
           ))}
           <div className="flex items-center justify-between mt-4">
-            <Button onClick={handlePrevPage} disabled={currentPage === 0} variant={currentPage === 0 ? 'outline' : 'default'}>
+            <Button
+              onClick={handlePrevPage}
+              disabled={currentPage === 0}
+              variant={currentPage === 0 ? 'outline' : 'default'}
+            >
               Previous
             </Button>
             <span className="mx-4 text-sm">
               Page {currentPage + 1} of {totalPages}
             </span>
-            <Button onClick={handleNextPage} disabled={currentPage === totalPages - 1} variant={currentPage === totalPages - 1 ? 'outline' : 'default'}>
+            <Button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages - 1}
+              variant={currentPage === totalPages - 1 ? 'outline' : 'default'}
+            >
               Next
             </Button>
           </div>
         </CardContent>
       </Card>
     </>
-  )
-}
+  );
+};
 
 export default DepositsFull;
