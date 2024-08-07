@@ -24,6 +24,7 @@ import {
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import { DatePicker } from '@/components/DatePicker';
 
 export default function DepositPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function DepositPage() {
   const [name, setName] = useState('');
   const [depositAmount, setDepositAmount] = useState<number>(0);
   const [depositNote, setDepositNote] = useState('');
-  const [depositDate, setDepositDate] = useState('');
+  const [depositDates, setDepositDates] = useState<string[]>([]);
   const [balance, setBalance] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -46,18 +47,26 @@ export default function DepositPage() {
     setIsLoading(true);
     setError('');
 
+    const totalDepositAmount = depositAmount * depositDates.length;
     const newBalanceAmount =
-      balance !== null ? balance + depositAmount : depositAmount;
+      balance !== null ? balance + totalDepositAmount : totalDepositAmount;
 
     try {
-      await createDeposit({ name, depositAmount, depositNote, depositDate });
+      for (const date of depositDates) {
+        await createDeposit({
+          name,
+          depositAmount,
+          depositNote,
+          depositDate: date,
+        });
+      }
       await createBalance({
         balanceAmount: newBalanceAmount,
-        balanceDate: depositDate,
+        balanceDate: new Date().toISOString(),
       });
       toast({
-        title: 'Deposit Submitted',
-        description: 'Your deposit has been submitted successfully.',
+        title: 'Deposits Submitted',
+        description: 'Your deposits have been submitted successfully.',
         duration: 5000,
       });
 
@@ -67,15 +76,6 @@ export default function DepositPage() {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleDepositAmountChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = e.target.value;
-    if (/^\d{0,5}$/.test(value)) {
-      setDepositAmount(Number(value));
     }
   };
 
@@ -99,7 +99,7 @@ export default function DepositPage() {
             <CardHeader>
               <CardTitle>New Deposit</CardTitle>
               <CardDescription>
-                Fill out the form below to submit a deposit to your squirrel
+                Fill out the form below to submit deposits to your squirrel
                 fund.
               </CardDescription>
             </CardHeader>
@@ -111,20 +111,14 @@ export default function DepositPage() {
                   id="amount"
                   type="text"
                   value={depositAmount}
-                  onChange={handleDepositAmountChange}
+                  onChange={(e) => setDepositAmount(Number(e.target.value))}
                   required
                   placeholder="Enter amount"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="date">Date</Label>
-                <Input
-                  id="date"
-                  type="datetime-local"
-                  value={depositDate}
-                  onChange={(e) => setDepositDate(e.target.value)}
-                  required
-                />
+                <Label>Deposit Dates</Label>
+                <DatePicker onChange={setDepositDates} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="note">Note</Label>
@@ -145,7 +139,10 @@ export default function DepositPage() {
                 <div className="space-y-2">
                   <Label>New Balance</Label>
                   <div className="text-2xl font-bold">
-                    ₱{balance !== null ? balance + depositAmount : 'Loading...'}
+                    ₱
+                    {balance !== null
+                      ? balance + depositAmount * depositDates.length
+                      : 'Loading...'}
                   </div>
                 </div>
               </div>

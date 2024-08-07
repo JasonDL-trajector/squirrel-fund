@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
+    "types": ["babel__core"],
     "module": "esnext",
     "moduleResolution": "node",
     "baseUrl": ".",

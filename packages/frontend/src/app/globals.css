@@ -67,3 +67,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add this CSS to your styles */
+@media (max-width: 768px) {
+  .popover-content {
+    position: fixed; /* Use fixed positioning */
+    top: 50%; /* Center vertically */
+    /* left: 100%; Center horizontally */
+    transform: translate(-50%, -50%);
+  }
+}
