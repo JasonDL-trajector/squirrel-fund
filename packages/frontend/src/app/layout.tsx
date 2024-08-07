@@ -3,8 +3,6 @@ import { Roboto } from 'next/font/google';
 import './globals.css';
 import AmplifyProvider from '@/components/AmplifyProvider';
 import { Toaster } from '@/components/ui/toaster';
-import Favicon from './favicon.ico';
-import AppleIcon from './apple-touch-icon.png';
 
 const roboto = Roboto({ subsets: ['greek'], weight: '400' });
 
@@ -33,6 +31,7 @@ export default function RootLayout({
           type="image/<generated>"
           sizes="<generated>"
         />
+        <meta name="theme-color" content="#111827" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
