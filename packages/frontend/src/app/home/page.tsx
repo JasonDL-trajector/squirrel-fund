@@ -1,9 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
-import { checkAuth, fetchLatestBalance, fetchLatestBalanceAmount, updateBalance } from '@/lib/API';
+import {
+  checkAuth,
+  fetchLatestBalance,
+  fetchLatestBalanceAmount,
+  updateBalance,
+} from '@/lib/API';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TabularSummary from '@/components/tabular-summary/TabularSummary';
@@ -12,7 +17,13 @@ import RecentDeposits from '@/components/deposits/RecentDeposits';
 import RecentWithdrawals from '@/components/withdrawals/RecentWithdrawals';
 import Bills from '@/components/Bills';
 import Link from 'next/link';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogOverlay } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogOverlay,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BalanceType } from '@/types/types';
@@ -65,7 +76,10 @@ export default function Main() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newBalance !== null && balanceId) {
-      updateBalance(balanceId, { balanceAmount: newBalance, balanceDate: balanceDate })
+      updateBalance(balanceId, {
+        balanceAmount: newBalance,
+        balanceDate: balanceDate,
+      })
         .then(() => {
           fetchLatestBalanceAmount(setBalanceAmount);
           setIsModalOpen(false);
@@ -79,7 +93,7 @@ export default function Main() {
     } else {
       console.error('New balance or balance ID is null');
     }
-};
+  };
 
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
@@ -100,7 +114,10 @@ export default function Main() {
         </div>
         <div className="bg-card rounded-lg shadow-md p-6 space-y-6 mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col items-center justify-center p-4 border rounded-lg shadow" onClick={handleBalanceEdit}>
+            <div
+              className="flex flex-col items-center justify-center p-4 border rounded-lg shadow"
+              onClick={handleBalanceEdit}
+            >
               <p className="text-4xl font-bold">
                 ₱{balanceAmount !== null ? balanceAmount : 'Loading...'}
               </p>
@@ -136,7 +153,9 @@ export default function Main() {
         <DialogOverlay className="DialogOverlay" />
         <DialogContent className="DialogContent">
           <DialogHeader>
-            <DialogTitle className="font-semibold">Edit Current Balance</DialogTitle>
+            <DialogTitle className="font-semibold">
+              Edit Current Balance
+            </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit}>
             <Input
@@ -148,7 +167,11 @@ export default function Main() {
               required
             />
             <div className="flex justify-end mt-10">
-              <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsModalOpen(false)}
+              >
                 Cancel
               </Button>
               <Button type="submit" className="ml-2">

@@ -2,8 +2,6 @@
 
 import { Button } from './ui/button';
 import { SquirrelIcon } from './ui/SquirrelIcon';
-import { UserIcon } from './ui/UserIcon';
-import { MenuIcon } from './ui/MenuIcon';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +15,6 @@ import { Auth } from 'aws-amplify';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { s3Download } from '@/lib/awsLib';
-import Image from 'next/image';
 
 const Navbar = () => {
   const [name, setName] = useState('');
@@ -67,27 +64,23 @@ const Navbar = () => {
       {isAuthenticated && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            
-              <img
-                src={profilePictureUrl}
-                alt="Profile"
-                className="w-8 h-8"
-                style={{ borderRadius: '50%' }}
-              />
-           
-            
+            <img
+              src={profilePictureUrl}
+              alt="Profile"
+              className="w-8 h-8"
+              style={{ borderRadius: '50%' }}
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-background mt-3">
             <DropdownMenuItem asChild className="w-full">
               <div className="flex items-center gap-2">
-               
-                  <img
-                    src={profilePictureUrl}
-                    alt="Profile"
-                    className="w-8 h-8"
-                    style={{ borderRadius: '50%' }}
-                  />
-               
+                <img
+                  src={profilePictureUrl}
+                  alt="Profile"
+                  className="w-8 h-8"
+                  style={{ borderRadius: '50%' }}
+                />
+
                 <span className="font-semibold">{name}</span>
               </div>
             </DropdownMenuItem>

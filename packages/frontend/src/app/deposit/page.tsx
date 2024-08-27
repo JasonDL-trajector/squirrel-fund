@@ -136,6 +136,14 @@ export default function DepositPage() {
                     ₱{balance !== null ? balance : 'Loading...'}
                   </div>
                 </div>
+                {depositAmount && depositDates.length ? (
+                  <div className="space-y-2">
+                    <Label>Plus</Label>
+                    <div className="text-2xl font-bold">
+                      <span>₱{depositAmount * depositDates.length}</span>
+                    </div>
+                  </div>
+                ) : null}
                 <div className="space-y-2">
                   <Label>New Balance</Label>
                   <div className="text-2xl font-bold">
